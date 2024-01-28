@@ -8,12 +8,12 @@ Launch into a game of your choice with (basically) the same way as the website/a
 
 After everything is filled out, open a terminal (ex. Command Prompt) into the directory (with `cd`), and type `node index.js` to run the program.
 
-Open another terminal to where your Roblox Player installation (not Studio!) and type in the executable name.
+Open another terminal to where your Roblox Player installation is (not Studio!) and type in the executable name.
 
 - This will be `RobloxPlayerBeta.exe`
 - For Linux users, this may be a PATH executable (Example: `vinegar player` or `flatpak run org.vinegarhq.Vinegar player`)
 
-Copy your "play token" from the first terminal (`CTRL+SHIFT+C`) and paste into the second terminal. (`CTRL+SHIFT+V`)
+Copy your "play token" from the first terminal (`CTRL+SHIFT+C`) and paste into the second terminal. (`CTRL+SHIFT+V`) Then run it.
 
 - Your play token will look something like this: `roblox-player:1+launchmode:play+gameinfo:authentication-ticket+launchtime:1706481700+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D6243699076%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
 
