@@ -2,7 +2,7 @@
 
 Launch into a game of your choice with (basically) the same way as the website/app does it
 
-~~it works somehow~~
+~~it works somehow and also very messy~~
 
 ## Usage
 
