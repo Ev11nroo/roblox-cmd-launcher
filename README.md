@@ -53,7 +53,7 @@ In a browser with the page of your game of choice, copy the chunck of numbers at
 
 Your browser tracker ID can be found in your cookie, or in the "play token" itself.
 
-Since this is optional, details will not be provided.
+Since this is optional, and will still launch with an invalid ID, details will not be provided.
 
 ### Getting a Join Attempt ID (Optional)
 
