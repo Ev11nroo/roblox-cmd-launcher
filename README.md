@@ -68,6 +68,7 @@ Currently, there is no known way to generate a `joinAttemptId`. However, it can 
 ### Replicate Option
 
 If `true`, the program will replicate the requests that Roblox does when joining a game.
+
 If `false`, the program will make requests that are only required to get a "play token".
 
 This will not affect your final "play token".
