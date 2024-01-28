@@ -1,4 +1,5 @@
 {
+    "replicate": false,
     "cookie": "your-roblox-cookie",
     "gameId": "any-game-id",
     "browserTrackerId": "your-browser-tracker-id",
