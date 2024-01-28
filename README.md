@@ -15,7 +15,7 @@ Open another terminal to where your Roblox Player installation (not Studio!) and
 
 Copy your "play token" from the first terminal (`CTRL+SHIFT+C`) and paste into the second terminal. (`CTRL+SHIFT+V`)
 
-- Your "play token" will look something like this: `roblox-player:1+launchmode:play+gameinfo:authentication-ticket+launchtime:1706481700+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D6243699076%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
+- Your play token will look something like this: `roblox-player:1+launchmode:play+gameinfo:authentication-ticket+launchtime:1706481700+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D6243699076%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
 
 After that, Roblox should run with your game opening successfully!
 
