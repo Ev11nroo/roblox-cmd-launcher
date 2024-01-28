@@ -39,9 +39,11 @@ You will need to fill out these fields.
 
 ***Warning: Sharing your cookie with anyone can make your account assesable to anyone.***
 
-You can get your cookie in a browser: `Right Click on Page > Inspect > Network` and refresh the page.
+You can get your cookie in a browser by: `Right Click on Page > Inspect > Network` and refresh the page.
 
 + Then, click anything inside the `Name` column (that isn't a picture), scroll down in `Headers` until you see `Cookie:`. Copy everything inside and paste in `config.json`.
+
+![Screenshot of a request's headers, showing where your Roblox cookie is found](/cookie-example.png)
 
 ### Getting a Game ID
 
