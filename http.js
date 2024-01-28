@@ -55,7 +55,7 @@ function getCSRFAndAuthenticate(unixtime) {
 
     getAuthTicket.then(ticket => {
         // 0299529d-0406-4b07-9108-215555e07d49
-        const playToken = `roblox-player:1+launchmode:play+gameinfo:${ticket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3D0299529d-0406-4b07-9108-215555e07d49%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
+        const playToken = `roblox-player:1+launchmode:play+gameinfo:${ticket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
         console.log("\nHere is your play token:\n", playToken)
     })
     })
@@ -100,6 +100,33 @@ function setUserStatusToUnknown() {
         .catch(err => console.error(err));
 } 
 
+// tell roblox that game was launched successfully
+function gameLaunchSuccessful() {
+  fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown', options)
+    .then(response => { 
+    if (response.status == 200) {
+      console.log('Told Roblox that game launch was successful')
+    } else {
+      throw new Error('Could not complete, no cookie provided or servers are having issues.')
+    }
+    })
+    .catch(err => console.error(err));
+}
+
+// tell roblox that game launched successfully (with protocol!!!!!!)
+function gameLaunchSuccessful_Protocol() {
+  fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown_Protocol', options)
+    .then(response => { 
+    if (response.status == 200) {
+      console.log('Told Roblox that game launch was successful (with protocol!!!!!!!!)')
+    } else {
+      throw new Error('Could not complete, no cookie provided or servers are having issues.')
+    }
+    })
+    .catch(err => console.error(err));
+}
+
+
 // check current user status (doesnt even work here lo)
 /*fetch('https://www.roblox.com/client-status?_=1706387466', options)
   .then(response => response.json())
@@ -110,5 +137,7 @@ module.exports = {
     getCSRFAndAuthenticate,
     launch,
     launchProtocol,
-    setUserStatusToUnknown
+    setUserStatusToUnknown,
+    gameLaunchSuccessful,
+    gameLaunchSuccessful_Protocol
 }
