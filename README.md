@@ -29,6 +29,7 @@ At this point, you should see in a text editor:
 
 ```
 {
+    "replicate": false,
     "cookie": "your-roblox-cookie",
     "gameId": "any-game-id",
     "browserTrackerId": "your-browser-tracker-id",
@@ -63,3 +64,10 @@ Since this is optional, and will still launch with an invalid ID, details will n
 ### Getting a Join Attempt ID (Optional)
 
 Currently, there is no known way to generate a `joinAttemptId`. However, it can litteraly be anything and it will still launch.
+
+### Replicate Option
+
+If `true`, the program will replicate the requests that Roblox does when joining a game.
+If `false`, the program will make requests that are only required to get a "play token".
+
+This will not affect your final "play token".
