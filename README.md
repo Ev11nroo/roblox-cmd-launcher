@@ -74,3 +74,13 @@ If `true`, the program will replicate the requests that Roblox does when joining
 If `false`, the program will make requests that are only required to get a "play token".
 
 This will not affect your final "play token".
+
+Set to `false` by default.
+
+### Write to File Option
+
+If `true`, your "play token" will be written to `playtoken.txt`
+
+If `false`, your "play token" will be simply displayed to copy from.
+
+Set to `false` by default.
