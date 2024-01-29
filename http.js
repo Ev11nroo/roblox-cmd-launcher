@@ -1,4 +1,5 @@
-const { cookie, gameId, browserTrackerId, joinAttemptId } = require('./config.json')
+const { cookie, gameId, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
+const fs = require('fs')
 
 const options = {
     method: 'POST',
@@ -46,18 +47,22 @@ function getCSRFAndAuthenticate(unixtime) {
           const authTicket = response.headers.get('rbx-authentication-ticket')
           if (authTicket) {
             console.log('Got Authentication Ticket!')
-            return authTicket;
+
+            const playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
+            
+            if (!writeToFile) {
+              console.log("\nHere is your play token:\n", playToken)
+              return 0;
+            }
+
+            fs.writeFile('./playtoken.txt', playToken, err => { if (err) throw err; })
+            console.log('\nWritten your play token to "playtoken.txt"')
+            
           } else {
             throw new Error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
           }
         })
         .catch(err => console.error(err));
-
-    getAuthTicket.then(ticket => {
-        // 0299529d-0406-4b07-9108-215555e07d49
-        const playToken = `roblox-player:1+launchmode:play+gameinfo:${ticket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
-        console.log("\nHere is your play token:\n", playToken)
-    })
     })
 } 
 
