@@ -13,7 +13,7 @@ After everything is filled out, open a terminal (ex. Command Prompt) into the di
 Open another terminal to where your Roblox Player installation is (not Studio!) and type in the executable name.
 
 - This will be `RobloxPlayerBeta.exe`
-- For Linux users, this may be a PATH executable (Example: `vinegar player` or `flatpak run org.vinegarhq.Vinegar player run`)
+- For Linux users, this may be a PATH executable (Example: `vinegar player run` or `flatpak run org.vinegarhq.Vinegar player run`)
 
 Copy your "play token" from the first terminal (`CTRL+SHIFT+C`) and paste into the second terminal. (`CTRL+SHIFT+V`) Then run it.
 
