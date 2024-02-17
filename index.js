@@ -1,10 +1,12 @@
-const { cookie, gameId, writeToFile } = require('./config.json')
+const { cookie, writeToFile } = require('./config.json')
+var { gameId } = require('./config.json')
 const fs = require('fs')
 
-const joinAttemptId = 'whatever'
-const browserTrackerId = 'whatever'
-
 const unixtime = Math.floor(Date.now() / 1000);
+
+if (process.argv[2] != undefined) {
+  gameId = process.argv[2]
+}
 
 const options = {
   method: 'POST',
@@ -45,7 +47,7 @@ aquireXCSRF.then(csrf => {
 
             const authTicket = response.headers.get('rbx-authentication-ticket')
             if (authTicket) {
-            const playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
+            const playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26isPlayTogetherGame%3Dfalse%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whateven+robloxLocale:en_us+gameLocale:en_us+channel:`
             
             if (!writeToFile) {
               console.log(playToken)
