@@ -10,6 +10,8 @@ Launch into a game of your choice with (basically) the same way as the website/a
 
 After everything is filled out, open a terminal (ex. Command Prompt) into the directory (with `cd`), and type `node index.js` to run the program.
 
+- You can also add the game ID to the end, like `node index.js 738339342` which will override `gameId` in config.json
+
 Open another terminal to where your Roblox Player installation is (not Studio!) and type in the executable name.
 
 - This will be `RobloxPlayerBeta.exe`
@@ -26,6 +28,8 @@ After that, Roblox should run with your game opening successfully!
 This project requires [node.js](https://nodejs.org/en/download) to use.
 
 Clone this repository with `git` or by downloading the ZIP file.
+
+## Your `config.json`
 
 Open the directory, and then open `config.json`
 
@@ -58,6 +62,8 @@ You can get your cookie in a browser by: `Right Click on Page > Inspect > Networ
 In a browser with the page of your game of choice, copy the chunck of numbers at the top of the URL.
 
 - Example: With the game [Brookhaven](https://www.roblox.com/games/4924922222/Brookhaven-RP), the link of the game is `https://www.roblox.com/games/4924922222/Brookhaven-RP`. You will want to copy `4924922222` in the URL.
+
+- You can also add the game ID to the end of the command, like `node index.js 4924922222`
 
 ### Getting your Browser Tracker ID (Optional)
 
