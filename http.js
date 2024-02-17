@@ -1,4 +1,4 @@
-const { cookie, gameId, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
+const { cookie, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
 const fs = require('fs')
 
 const options = {
@@ -7,11 +7,11 @@ const options = {
       cookie: `${cookie}`
     },
     body: 'false'
-  };
+};
 
 // send out the HTTP requests
 // get X-CSRF-TOKEN
-function getCSRFAndAuthenticate(unixtime) {
+function getCSRFAndAuthenticate(unixtime, gameId) {
     const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
         .then(async response => { 
           const csrf = await response.headers.get('x-csrf-token');
