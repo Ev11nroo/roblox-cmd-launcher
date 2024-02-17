@@ -65,6 +65,8 @@ In a browser with the page of your game of choice, copy the chunck of numbers at
 
 - You can also add the game ID to the end of the command, like `node index.js 4924922222`
 
+    - If the ID is invalid, Roblox will crash!
+
 ### Getting your Browser Tracker ID (Optional)
 
 Your browser tracker ID can be found in your cookie, or in the "play token" itself.
