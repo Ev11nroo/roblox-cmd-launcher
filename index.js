@@ -5,7 +5,7 @@ const fs = require('fs')
 const unixtime = Math.floor(Date.now() / 1000);
 
 if (process.argv[2] != undefined) {
-  gameId = process.argv[2]
+    gameId = process.argv[2]
 }
 
 const options = {
