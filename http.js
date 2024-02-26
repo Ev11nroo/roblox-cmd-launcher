@@ -19,7 +19,7 @@ function getCSRFAndAuthenticate(unixtime, gameId) {
             console.log('Got XCSRF Token successfully!')
             return csrf
           } else {
-            throw new Error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
+            console.error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
           }
         })
         .catch(err => console.error(err))
@@ -41,7 +41,7 @@ function getCSRFAndAuthenticate(unixtime, gameId) {
           if (await response.status == 200) {
             console.log('Authenticated successfully with Roblox!')
           } else {
-            throw new Error('Could not authenticate, XCSRF token failed or authentication servers are having issues.')
+            console.error('Could not authenticate, XCSRF token failed or authentication servers are having issues.')
           }
           
           const authTicket = response.headers.get('rbx-authentication-ticket')
@@ -59,7 +59,7 @@ function getCSRFAndAuthenticate(unixtime, gameId) {
             console.log('\nWritten your play token to "playtoken.txt"')
             
           } else {
-            throw new Error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
+            console.error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
           }
         })
         .catch(err => console.error(err));
@@ -73,7 +73,7 @@ function launch() {
           if (await response.status == 200) {
             console.log('Successfully told that a game wants to be launched')
           } else {
-            throw new Error('Could not complete, no cookie provided or servers are having issues.')
+            console.error('Could not complete, no cookie provided or servers are having issues.')
           }
         })
         .catch(err => console.error(err)); 
@@ -86,7 +86,7 @@ function launchProtocol() {
         if (await response.status == 200) {
           console.log('Successfully told to give launch parameters')
         } else {
-          throw new Error('Could not complete, no cookie provided or servers are having issues.')
+          console.error('Could not complete, no cookie provided or servers are having issues.')
         }
         })
         .catch(err => console.error(err));  
@@ -99,7 +99,7 @@ function setUserStatusToUnknown() {
         if (await response.status == 200) {
           console.log('Set user status to "Unknown"')
         } else {
-          throw new Error('Could not complete, no cookie provided or servers are having issues.')
+          console.error('Could not complete, no cookie provided or servers are having issues.')
         }
         })
         .catch(err => console.error(err));
@@ -112,7 +112,7 @@ function gameLaunchSuccessful() {
     if (response.status == 200) {
       console.log('Told Roblox that game launch was successful')
     } else {
-      throw new Error('Could not complete, no cookie provided or servers are having issues.')
+      console.error('Could not complete, no cookie provided or servers are having issues.')
     }
     })
     .catch(err => console.error(err));
@@ -125,7 +125,7 @@ function gameLaunchSuccessful_Protocol() {
     if (response.status == 200) {
       console.log('Told Roblox that game launch was successful (with protocol!!!!!!!!)')
     } else {
-      throw new Error('Could not complete, no cookie provided or servers are having issues.')
+      console.error('Could not complete, no cookie provided or servers are having issues.')
     }
     })
     .catch(err => console.error(err));
