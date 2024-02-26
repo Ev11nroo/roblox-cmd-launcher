@@ -22,7 +22,7 @@ const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
       if (csrf) {
         return csrf
       } else {
-        throw new Error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
+        console.error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
       }
     })
     .catch(err => console.error(err))
@@ -42,7 +42,7 @@ aquireXCSRF.then(csrf => {
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
             if (await response.status != 200) {
-                throw new Error('Could not authenticate, XCSRF token failed or authentication servers are having issues.')
+                console.error('Could not authenticate, XCSRF token failed or authentication servers are having issues.')
             }
 
             const authTicket = response.headers.get('rbx-authentication-ticket')
@@ -58,7 +58,7 @@ aquireXCSRF.then(csrf => {
             console.log('Written your play token to "playtoken.txt"')
             
             } else {
-                throw new Error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
+                console.error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
             }
         })
         .catch(err => console.error(err));
