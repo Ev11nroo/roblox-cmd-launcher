@@ -2,6 +2,8 @@
 
 Launch into a game of your choice with (basically) the same way as the website/app does it
 
+![Screenshot of what the program prints to the console](./visual.png)
+
 [barebones](https://github.com/Ev11nroo/robloxlaunch-via-terminal/tree/barebone) branch is available
 
 ~~it works somehow and also very messy~~
