@@ -1,5 +1,6 @@
 {
     "writeToFile": false,
     "cookie": "your-roblox-cookie",
-    "gameId": "any-game-id"
+    "gameId": "any-game-id",
+    "privateServerAccessCode": null
 }
