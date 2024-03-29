@@ -42,8 +42,6 @@ const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
             console.error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
             return 0;
         }
-
-        console.log('Got XCSRF Token successfully!')
         return csrf
         })
     .catch(err => console.error(err))
@@ -67,19 +65,15 @@ aquireXCSRF.then(csrf => {
             return 0;
           }
 
-          console.log('Authenticated successfully with Roblox!')
-
           const authTicket = response.headers.get('rbx-authentication-ticket')
           if (!authTicket) {
             console.error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
           }
 
-          console.log('Got Authentication Ticket!')
-
-          playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dtrue%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
+          playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26isPlayTogetherGame%3Dtrue%26joinAttemptId%3Dwhatever}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
 
           if (privateServerAccessCode != null) {
-            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestPrivateGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26accessCode%3D${privateServerAccessCode}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DprivateServerListJoin+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
+            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestPrivateGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26accessCode%3D${privateServerAccessCode}%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DprivateServerListJoin+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
           }
 
           if (!writeToFile) {
