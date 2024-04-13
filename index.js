@@ -39,8 +39,8 @@ const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
     .then(async response => { 
         const csrf = await response.headers.get('x-csrf-token');
         if (!csrf) {
-            console.error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
-            return 0;
+            console.error('XCSRF Token could not be grabbed. (1)')
+            return 1;
         }
         return csrf
         })
@@ -61,13 +61,14 @@ aquireXCSRF.then(csrf => {
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
           if (await response.status != 200) {
-            console.error('Could not authenticate, XCSRF token failed or authentication servers are having issues.')
-            return 0;
+            console.error('Could not authenticate with Roblox. (2)')
+            return 2;
           }
 
           const authTicket = response.headers.get('rbx-authentication-ticket')
           if (!authTicket) {
-            console.error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
+            console.error('Could not get ticket. (3)')
+              return 3;
           }
 
           playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26isPlayTogetherGame%3Dtrue%26joinAttemptId%3Dwhatever}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
