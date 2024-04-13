@@ -18,8 +18,8 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
         .then(async response => { 
           const csrf = await response.headers.get('x-csrf-token');
           if (!csrf) {
-            console.error('XCSRF Token could not be grabbed, no cookie provided or servers are having issues.')
-            return 0;
+            console.error('XCSRF Token could not be grabbed. (1)')
+            return 1;
           }
 
           console.log('Got XCSRF Token successfully!')
@@ -42,15 +42,16 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
           if (await response.status != 200) {
-            console.error('Could not authenticate, XCSRF token failed or authentication servers are having issues.')
-            return 0;
+            console.error('Could not authenticate with Roblox. (2)')
+            return 2;
           }
 
           console.log('Authenticated successfully with Roblox!')
 
           const authTicket = response.headers.get('rbx-authentication-ticket')
           if (!authTicket) {
-            console.error('Could not get ticket, XCSRF token failed or authentication servers are having issues.')
+            console.error('Could not get ticket. (3)')
+            return 3;
           }
 
           console.log('Got Authentication Ticket!')
@@ -78,8 +79,8 @@ function launch() {
    fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchAttempt_Unknown', options)
         .then(async response => { 
           if (await response.status != 200) {
-            console.error('Could not complete, no cookie provided or servers are having issues.')
-            return 0;
+            console.error('Could not complete request. (4)')
+            return 4;
           }
 
           console.log('Successfully told that a game wants to be launched')
@@ -92,8 +93,8 @@ function launchProtocol() {
     fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchAttempt_Unknown_Protocol', options)
         .then(async response => { 
         if (await response.status != 200) {
-          console.error('Could not complete, no cookie provided or servers are having issues.')
-          return 0;
+          console.error('Could not complete request. (4)')
+          return 4;
         }
 
         console.log('Successfully told to give launch parameters')
@@ -106,8 +107,8 @@ function setUserStatusToUnknown() {
     fetch('https://www.roblox.com/client-status/set?status=Unknown', options)
         .then(async response => { 
         if (await response.status != 200) {
-          console.error('Could not complete, no cookie provided or servers are having issues.')
-          return 0;
+          console.error('Could not complete request. (4)')
+          return 4;
         }
 
         console.log('Set user status to "Unknown"')
@@ -120,8 +121,8 @@ function gameLaunchSuccessful() {
   fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown', options)
     .then(response => { 
     if (response.status != 200) {
-      console.error('Could not complete, no cookie provided or servers are having issues.')
-      return 0;
+      console.error('Could not complete request (4)')
+      return 4;
     }
 
     console.log('Told Roblox that game launch was successful')
@@ -134,8 +135,8 @@ function gameLaunchSuccessful_Protocol() {
   fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown_Protocol', options)
     .then(response => { 
     if (response.status != 200) {
-      console.error('Could not complete, no cookie provided or servers are having issues.')
-      return 0;
+      console.error('Could not complete request. (4)')
+      return 4;
     }
 
     console.log('Told Roblox that game launch was successful (with protocol!!!!!!!!)')
