@@ -121,7 +121,7 @@ function gameLaunchSuccessful() {
   fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown', options)
     .then(response => { 
     if (response.status != 200) {
-      console.error('Could not complete request (4)')
+      console.error('Could not complete request. (4)')
       return 4;
     }
 
