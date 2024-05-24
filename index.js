@@ -21,7 +21,7 @@ for (i = process.argv.length; i >= 1; i--) {
                         '    -g, --gameId        Game ID used here will bypass config.json\n' +
                         '    -p, --accessCode    Private server access code used here will bypass config.json\n' +
                         '                        (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' +
-                        '    -h, --help          Shows this help menu')
+                        '    -h, --help          Show this help menu')
             return 0;
     }
 }
