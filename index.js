@@ -4,6 +4,10 @@ const fs = require('fs')
 
 const unixtime = Math.floor(Date.now() / 1000);
 
+if (fs.existsSync('./playtoken.txt')) {
+  fs.unlinkSync('./playtoken.txt', err => { if (err) throw err; })
+}
+
 for (i = process.argv.length; i >= 1; i--) {
     switch (process.argv[i]) {
         case '-g':
