@@ -1,6 +1,10 @@
 const { cookie, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
 const fs = require('fs')
 
+if (fs.existsSync('./playtoken.txt')) {
+  fs.unlinkSync('./playtoken.txt', err => { if (err) throw err; })
+}
+
 const options = {
     method: 'POST',
     headers: {
