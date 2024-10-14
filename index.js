@@ -43,7 +43,7 @@ const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
     .then(async response => { 
         const csrf = await response.headers.get('x-csrf-token');
         if (!csrf) {
-            console.error('XCSRF Token could not be grabbed. (1)')
+            console.error(`XCSRF Token could not be grabbed. (1): ${response.status}`)
             return 1;
         }
         return csrf
@@ -65,13 +65,13 @@ aquireXCSRF.then(csrf => {
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
           if (await response.status != 200) {
-            console.error('Could not authenticate with Roblox. (2)')
+            console.error(`Could not authenticate with Roblox. (2): ${response.status}`)
             return 2;
           }
 
           const authTicket = response.headers.get('rbx-authentication-ticket')
           if (!authTicket) {
-            console.error('Could not get ticket. (3)')
+            console.error(`Could not get ticket. (3): ${response.status}`)
               return 3;
           }
 
