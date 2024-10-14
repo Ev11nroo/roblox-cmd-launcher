@@ -22,7 +22,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
         .then(async response => { 
           const csrf = await response.headers.get('x-csrf-token');
           if (!csrf) {
-            console.error('XCSRF Token could not be grabbed. (1)')
+            console.error(`XCSRF Token could not be grabbed. (1): ${response.status}`)
             return 1;
           }
 
@@ -46,7 +46,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
           if (await response.status != 200) {
-            console.error('Could not authenticate with Roblox. (2)')
+            console.error(`Could not authenticate with Roblox. (2): ${response.status}`)
             return 2;
           }
 
@@ -54,7 +54,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
 
           const authTicket = response.headers.get('rbx-authentication-ticket')
           if (!authTicket) {
-            console.error('Could not get ticket. (3)')
+            console.error(`Could not get ticket. (3): ${response.status}`)
             return 3;
           }
 
@@ -83,7 +83,7 @@ function launch() {
    fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchAttempt_Unknown', options)
         .then(async response => { 
           if (await response.status != 200) {
-            console.error('Could not complete request. (4)')
+            console.error(`Could not complete request. (4): ${response.status}`)
             return 4;
           }
 
@@ -97,7 +97,7 @@ function launchProtocol() {
     fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchAttempt_Unknown_Protocol', options)
         .then(async response => { 
         if (await response.status != 200) {
-          console.error('Could not complete request. (4)')
+          console.error(`Could not complete request. (4) ${response.status}`)
           return 4;
         }
 
@@ -111,7 +111,7 @@ function setUserStatusToUnknown() {
     fetch('https://www.roblox.com/client-status/set?status=Unknown', options)
         .then(async response => { 
         if (await response.status != 200) {
-          console.error('Could not complete request. (4)')
+          console.error(`Could not complete request. (4) ${response.status}`)
           return 4;
         }
 
@@ -125,7 +125,7 @@ function gameLaunchSuccessful() {
   fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown', options)
     .then(response => { 
     if (response.status != 200) {
-      console.error('Could not complete request. (4)')
+      console.error(`Could not complete request. (4) ${response.status}`)
       return 4;
     }
 
@@ -139,7 +139,7 @@ function gameLaunchSuccessful_Protocol() {
   fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown_Protocol', options)
     .then(response => { 
     if (response.status != 200) {
-      console.error('Could not complete request. (4)')
+      console.error(`Could not complete request. (4) ${response.status}`)
       return 4;
     }
 
