@@ -8,7 +8,8 @@ if (fs.existsSync('./playtoken.txt')) {
 const options = {
     method: 'POST',
     headers: {
-      cookie: `${cookie}`
+      cookie: `${cookie}`,
+      referer: 'https://www.roblox.com/',
     },
     body: 'false'
 };
