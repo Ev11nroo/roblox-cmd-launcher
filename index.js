@@ -34,7 +34,8 @@ for (i = process.argv.length; i >= 1; i--) {
 const options = {
   method: 'POST',
   headers: {
-    cookie: `${cookie}`
+    cookie: `${cookie}`,
+    referer: 'https://www.roblox.com/',
   },
   body: 'false'
 };
