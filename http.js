@@ -68,7 +68,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
           }
 
           if (!writeToFile) {
-            console.log(playToken)
+            console.log("\nURI: ", playToken)
             return 0;
           }
 
