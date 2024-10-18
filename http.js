@@ -1,8 +1,8 @@
 const { cookie, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
 const fs = require('fs')
 
-if (fs.existsSync('./playtoken.txt')) {
-  fs.unlinkSync('./playtoken.txt', err => { if (err) throw err; })
+if (fs.existsSync('./uri.txt')) {
+  fs.unlinkSync('./uri.txt', err => { if (err) throw err; })
 }
 
 const options = {
@@ -68,12 +68,12 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
           }
 
           if (!writeToFile) {
-            console.log("\nHere is your play token:\n", playToken)
+            console.log(playToken)
             return 0;
           }
 
-          fs.writeFile('./playtoken.txt', playToken, err => { if (err) throw err; })
-          console.log('\nWritten your play token to "playtoken.txt"')
+          fs.writeFile('./uri.txt', playToken, err => { if (err) throw err; })
+          console.log('\nWritten your URI to "uri.txt"')
         })
         .catch(err => console.error(err));
     })
