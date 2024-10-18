@@ -4,8 +4,8 @@ const fs = require('fs')
 
 const unixtime = Math.floor(Date.now() / 1000);
 
-if (fs.existsSync('./playtoken.txt')) {
-  fs.unlinkSync('./playtoken.txt', err => { if (err) throw err; })
+if (fs.existsSync('./uri.txt')) {
+  fs.unlinkSync('./uri.txt', err => { if (err) throw err; })
 }
 
 for (i = process.argv.length; i >= 1; i--) {
@@ -83,12 +83,12 @@ aquireXCSRF.then(csrf => {
           }
 
           if (!writeToFile) {
-            console.log("\nHere is your play token:\n", playToken)
+            console.log("\nURI: ", playToken)
             return 0;
           }
 
-          fs.writeFile('./playtoken.txt', playToken, err => { if (err) throw err; })
-          console.log('\nWritten your play token to "playtoken.txt"')
+          fs.writeFile('./uri.txt', playToken, err => { if (err) throw err; })
+          console.log('\nWritten your URI to "uri.txt"')
         })
         .catch(err => console.error(err));
 })
