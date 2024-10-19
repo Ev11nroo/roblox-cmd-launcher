@@ -1,6 +1,6 @@
 # barebones
 
-What is only required to get your play token. (getting XCSRF, getting authentication ticket, and putting them together for a play token)
+What is only required to generate a URI. (getting XCSRF, getting authentication ticket, and putting them together for a URI)
 
 Follow [the wiki](https://github.com/Ev11nroo/robloxlaunch-via-terminal/wiki)  for a tutorial.
 
