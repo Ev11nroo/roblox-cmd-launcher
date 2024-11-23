@@ -18,6 +18,10 @@ for (i = process.argv.length; i >= 1; i--) {
         case '--accessCode':
             privateServerAccessCode = process.argv[i + 1]
             break;
+        case '-f':
+        case '--friendId':
+            friendId = process.argv[i + 1]
+            break;
         case '-h':
         case '--help':
             console.log('Usage: node index.js [ARGUMENTS]\n' + 
@@ -26,9 +30,16 @@ for (i = process.argv.length; i >= 1; i--) {
                         '    -g, --gameId        Game ID used here will bypass config.json\n' +
                         '    -p, --accessCode    Private server access code used here will bypass config.json\n' +
                         '                        (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' +
-                        '    -h, --help          Show this help menu')
+                        '    -h, --help          Show this help menu\n' + 
+                        '    -f, --friendId      The user ID to follow to a game\n'
+                    )
             return 0;
     }
+}
+
+if (friendId != null && privateServerAccessCode != null) {
+  console.error("privateServerAccessCode reqires to be 'null' to use friendId (5)")
+  return 5;
 }
 
 const options = {
@@ -80,6 +91,10 @@ aquireXCSRF.then(csrf => {
 
           if (privateServerAccessCode != null) {
             playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestPrivateGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26accessCode%3D${privateServerAccessCode}%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DprivateServerListJoin+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
+          }
+
+          if (friendId != null && privateServerAccessCode == null) {
+            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestFollowUser%26browserTrackerId%3D${browserTrackerId}%26userId%3D${friendId}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DJoinUser+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
           }
 
           if (!writeToFile) {
