@@ -8,6 +8,12 @@ Launch into a game of your choice with (basically) the same way as the website/a
 
 ~~it works somehow and also is very messy but who cares~~
 
+# Features
+
+- Joining a game
+- Joining a private server
+- Following users/friends to games
+
 # Documentation
 
 Documentation and a guide can be found [on the wiki.](https://github.com/Ev11nroo/roblox-cmd-launcher/wiki)
