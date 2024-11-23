@@ -1,6 +1,6 @@
 const { getCSRFAndAuthenticate, launch, launchProtocol, setUserStatusToUnknown, gameLaunchSuccessful, gameLaunchSuccessful_Protocol } = require('./http')
 const { replicate } = require('./config.json')
-let { gameId, privateServerAccessCode } = require('./config.json')
+let { gameId, privateServerAccessCode, friendId } = require('./config.json')
 const timestamp = Math.floor(Date.now() / 1000);
 
 for (i = process.argv.length; i >= 1; i--) {
@@ -13,6 +13,10 @@ for (i = process.argv.length; i >= 1; i--) {
         case '--accessCode':
             privateServerAccessCode = process.argv[i + 1]
             break;
+        case '-f':
+        case '--friendId':
+            friendId = process.argv[i + 1]
+            break;
         case '-h':
         case '--help':
             console.log('Usage: node index.js [ARGUMENTS]\n' + 
@@ -21,18 +25,25 @@ for (i = process.argv.length; i >= 1; i--) {
                         '    -g, --gameId        Game ID used here will bypass config.json\n' +
                         '    -p, --accessCode    Private server access code used here will bypass config.json\n' +
                         '                        (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' +
-                        '    -h, --help          Show this help menu')
+                        '    -h, --help          Show this help menu\n' + 
+                        '    -f, --friendId      The user ID to follow to a game\n'
+                    )
             return 0;
     }
 }
 
 console.log("Communicating with Roblox...\n")
 
+if (friendId != null && privateServerAccessCode != null) {
+    console.error("privateServerAccessCode reqires to be 'null' to use friendId (5)")
+    return 5;
+}
+
 // send out HTTP requests
 if (!replicate) {
-    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode)
+    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId)
 } else {
-    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode)
+    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId)
     launch()
     launchProtocol()
     setUserStatusToUnknown()

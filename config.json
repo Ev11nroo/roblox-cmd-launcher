@@ -3,6 +3,7 @@
     "writeToFile": false,
     "cookie": "your-roblox-cookie",
     "gameId": "any-game-id",
+    "friendId": null,
     "privateServerAccessCode": null,
     
     "browserTrackerId": "your-browser-tracker-id",

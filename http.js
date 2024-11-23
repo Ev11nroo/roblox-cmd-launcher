@@ -18,7 +18,7 @@ let playToken;
 
 // send out the HTTP requests
 // get X-CSRF-TOKEN
-function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
+function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, friendId) {
     const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
         .then(async response => { 
           const csrf = await response.headers.get('x-csrf-token');
@@ -66,6 +66,10 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode) {
           if (privateServerAccessCode != null) {
             playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestPrivateGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26accessCode%3D${privateServerAccessCode}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DprivateServerListJoin+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
           }
+
+          if (friendId != null && privateServerAccessCode == null) [
+            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestFollowUser%26browserTrackerId%3D${browserTrackerId}%26userId%3D${friendId}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DJoinUser+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
+          ]
 
           if (!writeToFile) {
             console.log("\nURI: ", playToken)
