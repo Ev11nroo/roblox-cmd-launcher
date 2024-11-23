@@ -11,8 +11,8 @@ Launch into a game of your choice with (basically) the same way as the website/a
 # Features
 
 - Joining a game
-- Joining a private server
-- Following users/friends to games
+- Joining a private server (1.0.4+)
+- Following users/friends to games (1.0.5+)
 
 # Documentation
 
