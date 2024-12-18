@@ -8,6 +8,8 @@ Launch into a game of your choice with (basically) the same way as the website/a
 
 ~~it works somehow and also is very messy but who cares~~
 
+similar to [pizzaboxer/ROBLOX-desktop-launcher](https://github.com/pizzaboxer/ROBLOX-desktop-launcher)
+
 # Features
 
 - Joining a game
