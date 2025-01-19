@@ -87,22 +87,32 @@ aquireXCSRF.then(csrf => {
               return 3;
           }
 
-          playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26isPlayTogetherGame%3Dtrue%26joinAttemptId%3Dwhatever}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
-
+          let initalUri = `roblox-player:1+launchmode:play+launchtime:${unixtime}+`;
+          let placeLauncherUrl = `https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26placeId%3D${gameId}%26`;
+    
+          if (cookie != null || authTicket != null) {
+              initalUri += `gameinfo:${authTicket}+`;
+          }
+    
           if (privateServerAccessCode != null) {
-            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestPrivateGame%26browserTrackerId%3Dwhatever%26placeId%3D${gameId}%26accessCode%3D${privateServerAccessCode}%26joinAttemptId%3Dwhatever%26joinAttemptOrigin%3DprivateServerListJoin+browsertrackerid:whatever+robloxLocale:en_us+gameLocale:en_us+channel:`
+              placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestPrivateGame");
+              placeLauncherUrl += `accessCode%3D${privateServerAccessCode}%26`;
+          }
+    
+          if (friendId != null) {
+              placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestFollowUser")
+              placeLauncherUrl += `userId%3D${friendId}%26`
           }
 
-          if (friendId != null && privateServerAccessCode == null) {
-            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestFollowUser%26browserTrackerId%3D${browserTrackerId}%26userId%3D${friendId}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DJoinUser+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
-          }
-
+          initalUri += "placelauncherurl:"
+          let uri = `${initalUri}${placeLauncherUrl}`
+    
           if (!writeToFile) {
-            console.log("\nURI: ", playToken)
-            return 0;
+              console.log("\nURI:", uri)
+              return 0;
           }
 
-          fs.writeFile('./uri.txt', playToken, err => { if (err) throw err; })
+          fs.writeFile('./uri.txt', uri, err => { if (err) throw err; })
           console.log('\nWritten your URI to "uri.txt"')
         })
         .catch(err => console.error(err));
