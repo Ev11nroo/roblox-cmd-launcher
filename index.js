@@ -4,6 +4,9 @@ const fs = require('fs')
 
 const unixtime = Math.floor(Date.now() / 1000);
 
+const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (err) console.log(err) });
+let githubVersion;
+
 if (fs.existsSync('./uri.txt')) {
   fs.unlinkSync('./uri.txt', err => { if (err) throw err; })
 }
@@ -35,6 +38,50 @@ for (i = process.argv.length; i >= 1; i--) {
                     )
             return 0;
     }
+}
+
+fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
+.then(data => data.text())
+.then(data => githubVersion = data)
+.then(() => {
+    if (currentVersion < githubVersion) {
+        console.log('This version is outdated, please update from https://github.com/Ev11nroo/roblox-cmd-launcher')
+    }
+})
+
+function createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId) {
+    let initalUri = `roblox-player:1+launchmode:play+launchtime:${unixtime}+`;
+    let placeLauncherUrl = `https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26placeId%3D${gameId}%26`;
+    
+    if (cookie != null || authTicket != null) {
+        initalUri += `gameinfo:${authTicket}+`;
+    }
+
+    if (privateServerAccessCode != null) {
+        placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestPrivateGame");
+        placeLauncherUrl += `accessCode%3D${privateServerAccessCode}%26`;
+    }
+    
+    if (friendId != null) {
+        placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestFollowUser")
+        placeLauncherUrl += `userId%3D${friendId}%26`
+    }
+
+    initalUri += "placelauncherurl:"
+    let uri = `${initalUri}${placeLauncherUrl}`
+    
+    if (!writeToFile) {
+        console.log("\nURI:", uri)
+        return 0;
+    }
+
+    fs.writeFile('./uri.txt', uri, err => { if (err) throw err; })
+    console.log('\nWritten your URI to "uri.txt"')
+}
+
+if (cookie == null) {
+  createURI(null, privateServerAccessCode, friendId, timestamp, gameId)
+  return 0;
 }
 
 if (friendId != null && privateServerAccessCode != null) {
@@ -87,33 +134,7 @@ aquireXCSRF.then(csrf => {
               return 3;
           }
 
-          let initalUri = `roblox-player:1+launchmode:play+launchtime:${unixtime}+`;
-          let placeLauncherUrl = `https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26placeId%3D${gameId}%26`;
-    
-          if (cookie != null || authTicket != null) {
-              initalUri += `gameinfo:${authTicket}+`;
-          }
-    
-          if (privateServerAccessCode != null) {
-              placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestPrivateGame");
-              placeLauncherUrl += `accessCode%3D${privateServerAccessCode}%26`;
-          }
-    
-          if (friendId != null) {
-              placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestFollowUser")
-              placeLauncherUrl += `userId%3D${friendId}%26`
-          }
-
-          initalUri += "placelauncherurl:"
-          let uri = `${initalUri}${placeLauncherUrl}`
-    
-          if (!writeToFile) {
-              console.log("\nURI:", uri)
-              return 0;
-          }
-
-          fs.writeFile('./uri.txt', uri, err => { if (err) throw err; })
-          console.log('\nWritten your URI to "uri.txt"')
+          createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId)
         })
         .catch(err => console.error(err));
 })
