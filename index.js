@@ -3,6 +3,10 @@ const { createURI } = require('./uri')
 const { replicate, cookie } = require('./config.json')
 let { gameId, privateServerAccessCode, friendId } = require('./config.json')
 const timestamp = Math.floor(Date.now() / 1000);
+const fs = require('fs');
+
+const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (err) console.log(err) });
+let githubVersion;
 
 for (i = process.argv.length; i >= 1; i--) {
     switch (process.argv[i]) {
@@ -32,6 +36,16 @@ for (i = process.argv.length; i >= 1; i--) {
             return 0;
     }
 }
+
+//version checker
+fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
+.then(data => data.text())
+.then(data => githubVersion = data)
+.then(() => {
+    if (currentVersion < githubVersion) {
+        console.log('This version is outdated, please update from https://github.com/Ev11nroo/roblox-cmd-launcher')
+    }
+})
 
 if (cookie == null) {
     createURI(null, privateServerAccessCode, friendId, timestamp, gameId)
