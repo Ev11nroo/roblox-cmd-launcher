@@ -1,4 +1,5 @@
 const { cookie, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
+const { createURI } = require('./uri')
 const fs = require('fs')
 
 if (fs.existsSync('./uri.txt')) {
@@ -60,24 +61,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, frien
           }
 
           console.log('Got Authentication Ticket!')
-
-          playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26isPlayTogetherGame%3Dtrue%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DPlayButton+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
-
-          if (privateServerAccessCode != null) {
-            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestPrivateGame%26browserTrackerId%3D${browserTrackerId}%26placeId%3D${gameId}%26accessCode%3D${privateServerAccessCode}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DprivateServerListJoin+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
-          }
-
-          if (friendId != null && privateServerAccessCode == null) {
-            playToken = `roblox-player:1+launchmode:play+gameinfo:${authTicket}+launchtime:${unixtime}+placelauncherurl:https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestFollowUser%26browserTrackerId%3D${browserTrackerId}%26userId%3D${friendId}%26joinAttemptId%3D${joinAttemptId}%26joinAttemptOrigin%3DJoinUser+browsertrackerid:${browserTrackerId}+robloxLocale:en_us+gameLocale:en_us+channel:`
-          }
-
-          if (!writeToFile) {
-            console.log("\nURI: ", playToken)
-            return 0;
-          }
-
-          fs.writeFile('./uri.txt', playToken, err => { if (err) throw err; })
-          console.log('\nWritten your URI to "uri.txt"')
+          createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, browserTrackerId, joinAttemptId)
         })
         .catch(err => console.error(err));
     })

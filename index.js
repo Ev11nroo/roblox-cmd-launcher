@@ -1,5 +1,6 @@
 const { getCSRFAndAuthenticate, launch, launchProtocol, setUserStatusToUnknown, gameLaunchSuccessful, gameLaunchSuccessful_Protocol } = require('./http')
-const { replicate } = require('./config.json')
+const { createURI } = require('./uri')
+const { replicate, cookie } = require('./config.json')
 let { gameId, privateServerAccessCode, friendId } = require('./config.json')
 const timestamp = Math.floor(Date.now() / 1000);
 
@@ -32,10 +33,15 @@ for (i = process.argv.length; i >= 1; i--) {
     }
 }
 
+if (cookie == null) {
+    createURI(null, privateServerAccessCode, friendId, timestamp, gameId)
+    return 0;
+}
+
 console.log("Communicating with Roblox...\n")
 
 if (friendId != null && privateServerAccessCode != null) {
-    console.error("privateServerAccessCode requires to be 'null' to use friendId (5)")
+    console.error("privateServerAccessCode reqires to be 'null' to use friendId (5)")
     return 5;
 }
 
