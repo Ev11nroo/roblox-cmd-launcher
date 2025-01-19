@@ -1,5 +1,5 @@
 const { cookie, writeToFile } = require('./config.json')
-let { gameId, privateServerAccessCode } = require('./config.json')
+let { gameId, privateServerAccessCode, friendId } = require('./config.json')
 const fs = require('fs')
 
 const unixtime = Math.floor(Date.now() / 1000);
