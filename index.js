@@ -38,7 +38,7 @@ for (i = process.argv.length; i >= 1; i--) {
 }
 
 if (friendId != null && privateServerAccessCode != null) {
-  console.error("privateServerAccessCode reqires to be 'null' to use friendId (5)")
+  console.error("privateServerAccessCode requires to be 'null' to use friendId (5)")
   return 5;
 }
 
