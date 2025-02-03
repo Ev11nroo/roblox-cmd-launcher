@@ -25,6 +25,7 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
     
     if (friendId != null) {
         placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestFollowUser")
+        placeLauncherUrl = placeLauncherUrl.replace(`placeId%3D${gameId}`, "")
         placeLauncherUrl += `userId%3D${friendId}%26`
     }
 
