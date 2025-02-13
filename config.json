@@ -5,7 +5,6 @@
     "gameId": "any-game-id",
     "friendId": null,
     "privateServerAccessCode": null,
-    
-    "browserTrackerId": "your-browser-tracker-id",
-    "joinAttemptId": "whatever-you-want"
+    "browserTrackerId": null,
+    "joinAttemptId": null
 }
