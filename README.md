@@ -2,7 +2,7 @@
 
 Launch into a game of your choice with (basically) the same way as the website/app does it
 
-![Screenshot of what the program prints to the console](./visual.png)
+![Screenshot of what the program prints to the console](./assets/visual.png)
 
 [barebones](https://github.com/Ev11nroo/roblox-cmd-launcher/tree/barebone) branch is available
 
