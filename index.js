@@ -51,21 +51,21 @@ fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads
 
 function createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId) {
     let initalUri = `roblox-player:1+launchmode:play+launchtime:${unixtime}+`;
-    let placeLauncherUrl = `https%3A%2F%2Fassetgame.roblox.com%2Fgame%2FPlaceLauncher.ashx%3Frequest%3DRequestGame%26placeId%3D${gameId}%26`;
+    let placeLauncherUrl = `https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&placeId=${gameId}&`;
     
     if (cookie != null || authTicket != null) {
         initalUri += `gameinfo:${authTicket}+`;
     }
 
     if (privateServerAccessCode != null) {
-        placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestPrivateGame");
-        placeLauncherUrl += `accessCode%3D${privateServerAccessCode}%26`;
+        placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=RequestPrivateGame");
+        placeLauncherUrl += `accessCode=${privateServerAccessCode}&`;
     }
     
     if (friendId != null) {
-        placeLauncherUrl = placeLauncherUrl.replace("request%3DRequestGame", "request%3DRequestFollowUser")
-        placeLauncherUrl = placeLauncherUrl.replace(`placeId%3D${gameId}`, "")
-        placeLauncherUrl += `userId%3D${friendId}%26`
+        placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=RequestFollowUser")
+        placeLauncherUrl = placeLauncherUrl.replace(`placeId=${gameId}`, "")
+        placeLauncherUrl += `userId=${friendId}&`
     }
 
     initalUri += "placelauncherurl:"
