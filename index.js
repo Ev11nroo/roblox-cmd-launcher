@@ -1,4 +1,5 @@
 const { cookie, writeToFile } = require('./config.json');
+const { exec } = require('child_process');
 let { gameId, privateServerAccessCode, friendId } = require('./config.json');
 const fs = require('fs');
 
@@ -73,6 +74,12 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
     
     if (!writeToFile) {
         console.log("\nURI:", uri);
+        return 0;
+    }
+
+    if (command && !writeToFile) {
+        console.log(`\nRunning '${command}' with URI`);
+        exec(`${command} "${uri}"`);
         return 0;
     }
 
