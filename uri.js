@@ -1,4 +1,4 @@
-const { writeToFile, cookie } = require('./config.json');
+const { writeToFile, cookie, command } = require('./config.json');
 const { exec } = require('child_process')
 const fs = require('fs');
 
