@@ -1,4 +1,4 @@
-const { cookie, browserTrackerId, joinAttemptId, writeToFile} = require('./config.json')
+const { cookie, browserTrackerId, joinAttemptId } = require('./config.json')
 const { createURI } = require('./uri')
 const fs = require('fs')
 
