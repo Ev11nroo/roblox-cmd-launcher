@@ -1,5 +1,6 @@
 {
     "writeToFile": false,
+    "command": null,
     "cookie": "your-roblox-cookie",
     "gameId": "any-game-id",
     "friendId": null,
