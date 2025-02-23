@@ -10,12 +10,12 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
     }
     
     if (browserTrackerId != null) {
-        initalUri += `browsertrackerid:${browserTrackerId}+`
-        placeLauncherUrl += `browserTrackerId=${browserTrackerId}&`
+        initalUri += `browsertrackerid:${browserTrackerId}+`;
+        placeLauncherUrl += `browserTrackerId=${browserTrackerId}&`;
     }
     
     if (joinAttemptId != null) {
-        placeLauncherUrl += `joinAttemptId=${joinAttemptId}&`
+        placeLauncherUrl += `joinAttemptId=${joinAttemptId}&`;
     }
     
     if (privateServerAccessCode != null) {
@@ -24,21 +24,21 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
     }
     
     if (friendId != null) {
-        placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=RequestFollowUser")
-        placeLauncherUrl = placeLauncherUrl.replace(`placeId=${gameId}`, "")
-        placeLauncherUrl += `userId=${friendId}&`
+        placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=RequestFollowUser");
+        placeLauncherUrl = placeLauncherUrl.replace(`placeId=${gameId}`, "");
+        placeLauncherUrl += `userId=${friendId}&`;
     }
 
-    initalUri += "placelauncherurl:"
-    let uri = `${initalUri}${placeLauncherUrl}`
+    initalUri += "placelauncherurl:";
+    let uri = `${initalUri}${placeLauncherUrl}`;
     
     if (!writeToFile) {
-        console.log("\nURI:", uri)
+        console.log("\nURI:", uri);
         return 0;
     }
 
-    fs.writeFile('./uri.txt', uri, err => { if (err) throw err; })
-    console.log('\nWritten your URI to "uri.txt"')
+    fs.writeFile('./uri.txt', uri, err => { if (err) throw err; });
+    console.log('\nWritten your URI to "uri.txt"');
 }
 
 module.exports = {
