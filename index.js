@@ -1,4 +1,4 @@
-const { cookie, writeToFile } = require('./config.json');
+const { cookie, writeToFile, command } = require('./config.json');
 const { exec } = require('child_process');
 let { gameId, privateServerAccessCode, friendId } = require('./config.json');
 const fs = require('fs');
