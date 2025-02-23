@@ -33,7 +33,7 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
     initalUri += "placelauncherurl:";
     let uri = `${initalUri}${placeLauncherUrl}`;
     
-    if (!writeToFile) {
+    if (!writeToFile && !command) {
         console.log("\nURI:", uri);
         return 0;
     }
