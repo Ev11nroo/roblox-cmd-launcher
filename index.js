@@ -1,4 +1,4 @@
-const { cookie, writeToFile, command } = require('./config.json');
+const { cookie, writeToFile, command, updateChecker } = require('./config.json');
 const { exec } = require('child_process');
 let { gameId, privateServerAccessCode, friendId } = require('./config.json');
 const fs = require('fs');
@@ -41,14 +41,16 @@ for (i = process.argv.length; i >= 1; i--) {
     }
 }
 
-fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
-.then(data => data.text())
-.then(data => githubVersion = data)
-.then(() => {
-    if (currentVersion < githubVersion) {
-        console.log('This version is outdated, please update from https://github.com/Ev11nroo/roblox-cmd-launcher')
-    }
-});
+if (updateChecker) {
+    fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
+    .then(data => data.text())
+    .then(data => githubVersion = data)
+    .then(() => {
+        if (currentVersion < githubVersion) {
+            console.log('This version is outdated, please update from https://github.com/Ev11nroo/roblox-cmd-launcher')
+        }
+    });
+}
 
 function createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId) {
     let initalUri = `roblox-player:1+launchmode:play+launchtime:${unixtime}+`;

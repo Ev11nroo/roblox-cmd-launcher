@@ -1,5 +1,6 @@
 {
     "writeToFile": false,
+    "updateChecker": true,
     "command": null,
     "cookie": "your-roblox-cookie",
     "gameId": "any-game-id",
