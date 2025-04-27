@@ -9,7 +9,7 @@ const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (e
 let githubVersion;
 
 if (fs.existsSync('./uri.txt')) {
-  fs.unlinkSync('./uri.txt', err => { if (err) throw err; });
+    fs.unlinkSync('./uri.txt', err => { if (err) throw err; });
 }
 
 for (i = process.argv.length; i >= 1; i--) {
@@ -90,22 +90,22 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
 }
 
 if (cookie == null) {
-  createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
-  return 0;
+    createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
+    return 0;
 }
 
 if (friendId != null && privateServerAccessCode != null) {
-  console.error("privateServerAccessCode requires to be 'null' to use friendId (5)");
-  return 5;
+    console.error("privateServerAccessCode requires to be 'null' to use friendId (5)");
+    return 5;
 }
 
 const options = {
-  method: 'POST',
-  headers: {
-    cookie: `${cookie}`,
-    referer: 'https://www.roblox.com/',
-  },
-  body: 'false'
+    method: 'POST',
+    headers: {
+        cookie: `${cookie}`,
+        referer: 'https://www.roblox.com/',
+    },
+    body: 'false'
 };
 
 const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
@@ -124,27 +124,27 @@ aquireXCSRF.then(csrf => {
     const authOptions = {
     method: 'POST',
     headers: {
-      cookie: `${cookie}`,
-      referer: 'https://www.roblox.com/',
-      'x-csrf-token': `${csrf}`
+        cookie: `${cookie}`,
+        referer: 'https://www.roblox.com/',
+        'x-csrf-token': `${csrf}`
     },
     body: 'false'
     };
     
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
-          if (await response.status != 200) {
-            console.error(`Could not authenticate with Roblox. (2): ${response.status}`);
-            return 2;
-          }
+            if (await response.status != 200) {
+                console.error(`Could not authenticate with Roblox. (2): ${response.status}`);
+                return 2;
+            }
 
-          const authTicket = response.headers.get('rbx-authentication-ticket');
-          if (!authTicket) {
-            console.error(`Could not get ticket. (3): ${response.status}`);
-              return 3;
-          }
+            const authTicket = response.headers.get('rbx-authentication-ticket');
+            if (!authTicket) {
+                console.error(`Could not get ticket. (3): ${response.status}`);
+                return 3;
+            }
 
-          createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId);
+            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId);
         })
         .catch(err => console.error(err));
 })
