@@ -80,6 +80,8 @@ if (serverId != null && privateServerAccessCode != null) {
 if (!replicate) {
     getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
 } else {
+    console.warn("warn: replicate option is deprecated, please disable it")
+
     getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
     launch();
     launchProtocol();
