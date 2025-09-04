@@ -1,4 +1,4 @@
-const { writeToFile, cookie, command } = require('./config.json');
+const { writeToFile, cookie, command, serverId } = require('./config.json');
 const { exec } = require('child_process')
 const fs = require('fs');
 
@@ -28,6 +28,11 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
         placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=RequestFollowUser");
         placeLauncherUrl = placeLauncherUrl.replace(`placeId=${gameId}`, "");
         placeLauncherUrl += `userId=${friendId}&`;
+    }
+
+    if (serverId != null) {
+        placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=GameJob");
+        placeLauncherUrl += `gameId=${serverId}&`;
     }
 
     initalUri += "placelauncherurl:";
