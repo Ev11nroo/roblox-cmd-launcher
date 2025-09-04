@@ -67,8 +67,13 @@ if (friendId != null && privateServerAccessCode != null) {
 }
 
 if (friendId != null && serverId != null) {
-    console.err("serverId requires to be 'null' to use friendId (6)")
+    console.error("serverId requires to be 'null' to use friendId (6)")
     return 6;
+}
+
+if (serverId != null && privateServerAccessCode != null) {
+    console.error("privateServerAccessCode requires to be 'null' to use serverId (7)");
+    return 7;
 }
 
 // send out HTTP requests
