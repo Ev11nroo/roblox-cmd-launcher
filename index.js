@@ -41,6 +41,8 @@ for (i = process.argv.length; i >= 1; i--) {
     }
 }
 
+console.warn("warn: barebone is no longer being maintained, please switch to main version")
+
 if (updateChecker) {
     fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
     .then(data => data.text())
