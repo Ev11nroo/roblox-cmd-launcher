@@ -13,6 +13,7 @@ similar to [pizzaboxer/ROBLOX-desktop-launcher](https://github.com/pizzaboxer/RO
 - Joining a game
 - Joining a private server (1.0.4+)
 - Following users/friends to games (1.0.5+)
+- Joining a specific server (1.0.8+)
 
 # Documentation
 
