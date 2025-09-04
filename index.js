@@ -1,6 +1,6 @@
 const { getCSRFAndAuthenticate, launch, launchProtocol, setUserStatusToUnknown, gameLaunchSuccessful, gameLaunchSuccessful_Protocol } = require('./http');
 const { createURI } = require('./uri');
-const { replicate, cookie, updateChecker } = require('./config.json');
+const { replicate, cookie, updateChecker, browserTrackerId, joinAttemptId } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId } = require('./config.json');
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
@@ -21,6 +21,10 @@ for (i = process.argv.length; i >= 1; i--) {
         case '-f':
         case '--friendId':
             friendId = process.argv[i + 1];
+            break;
+        case '-s':
+        case '--serverId':
+            serverId = process.argv[i + 1];
             break;
         case '-h':
         case '--help':
@@ -50,7 +54,7 @@ if (updateChecker) {
 }
 
 if (cookie == null) {
-    createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
+    createURI(null, privateServerAccessCode, friendId, timestamp, gameId, browserTrackerId, joinAttemptId);
     return 0;
 }
 
@@ -68,9 +72,9 @@ if (friendId != null && serverId != null) {
 
 // send out HTTP requests
 if (!replicate) {
-    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId);
+    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
 } else {
-    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId);
+    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
     launch();
     launchProtocol();
     setUserStatusToUnknown();

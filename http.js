@@ -19,7 +19,7 @@ let playToken;
 
 // send out the HTTP requests
 // get X-CSRF-TOKEN
-function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, friendId) {
+function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, friendId, serverId) {
     const aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options)
         .then(async response => { 
             const csrf = await response.headers.get('x-csrf-token');
@@ -61,7 +61,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, frien
             }
 
             console.log('Got Authentication Ticket!');
-            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, browserTrackerId, joinAttemptId);
+            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, browserTrackerId, joinAttemptId, serverId);
         })
         .catch(err => console.error(err));
     })
