@@ -4,8 +4,6 @@ Launch into a game of your choice with (basically) the same way as the website/a
 
 ![Screenshot of what the program prints to the console](./assets/visual.png)
 
-[barebones](https://github.com/Ev11nroo/roblox-cmd-launcher/tree/barebone) branch is available
-
 ~~it works somehow and also is very messy but who cares~~
 
 similar to [pizzaboxer/ROBLOX-desktop-launcher](https://github.com/pizzaboxer/ROBLOX-desktop-launcher)
