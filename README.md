@@ -1,7 +1,7 @@
 # barebones
 
-[!WARNING]
-barebones is no longer being maintained, please switch to main version
+> [!WARNING]
+> barebones is no longer being maintained, please switch to main version
 
 What is only required to generate a URI. (getting XCSRF, getting authentication ticket, and putting them together for a URI)
 
