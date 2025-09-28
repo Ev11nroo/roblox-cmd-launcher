@@ -36,7 +36,7 @@ for (i = process.argv.length; i >= 1; i--) {
                         '                        (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' +
                         '    -h, --help          Show this help menu\n' + 
                         '    -f, --friendId      The user ID to follow to a game\n' + 
-                        '    -g, --serverId      The server/game ID to join a specific server of a place\n'
+                        '    -s, --serverId      The server/game ID to join a specific server of a place\n'
                     );
             return 0;
     }
