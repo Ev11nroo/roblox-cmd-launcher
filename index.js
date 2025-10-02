@@ -1,4 +1,4 @@
-const { getCSRFAndAuthenticate, launch, launchProtocol, setUserStatusToUnknown, gameLaunchSuccessful, gameLaunchSuccessful_Protocol } = require('./http');
+const { getCSRFAndAuthenticate, getAccessCodeFromPrivateServerId, launch, launchProtocol, setUserStatusToUnknown, gameLaunchSuccessful, gameLaunchSuccessful_Protocol } = require('./http');
 const { createURI } = require('./uri');
 const { replicate, cookie, updateChecker, browserTrackerId, joinAttemptId } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = require('./config.json');
@@ -81,8 +81,28 @@ if (serverId != null && privateServerAccessCode != null) {
     return 7;
 }
 
+if (privateServerAccessCode != null && privateServerId != null) {
+    console.error("privateServerAccessCode requires to be 'null' to user privateServerId (9)");
+    return 9;
+}
+
+if (gameId == null && privateServerId != null) {
+    console.error("privateServerId requires gameId (10)");
+    return 10;
+}
+
+
 // send out HTTP requests
 if (!replicate) {
+    if (privateServerId != null) {
+        const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);
+        code.then(code => {
+            console.log('Obtained private server access code\n');
+            getCSRFAndAuthenticate(timestamp, gameId, code, friendId, serverId);
+        });
+        return 0;
+    }
+
     getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
 } else {
     console.warn("warn: replicate option is deprecated, please disable it")
