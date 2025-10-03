@@ -64,7 +64,7 @@ if (cookie == null) {
     return 0;
 }
 
-console.log("Communicating with Roblox...\n");
+console.log("Starting requests to Roblox\n");
 
 if (friendId != null && privateServerAccessCode != null) {
     console.error("privateServerAccessCode reqires to be 'null' to use friendId (5)");
