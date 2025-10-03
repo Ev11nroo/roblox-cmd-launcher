@@ -4,11 +4,13 @@
     "updateChecker": true,
     "command": null,
     "cookie": "your-roblox-cookie",
-    "gameId": "any-game-id",
-    "friendId": null,
-    "privateServerAccessCode": null,
-    "privateServerId": null,
-    "serverId": null,
-    "browserTrackerId": null,
-    "joinAttemptId": null
+    "options": {
+        "gameId": "any-game-id",
+        "friendId": null,
+        "privateServerAccessCode": null,
+        "privateServerId": null,
+        "serverId": null,
+        "browserTrackerId": null,
+        "joinAttemptId": null
+    }
 }
