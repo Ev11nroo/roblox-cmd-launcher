@@ -54,7 +54,7 @@ if (updateChecker) {
     .then(data => data.text())
     .then(data => githubVersion = data)
     .then(() => {
-        if (currentVersion < githubVersion) {
+        if (Number(currentVersion) < Number(githubVersion)) {
             console.log('This version is outdated, please update from https://github.com/Ev11nroo/roblox-cmd-launcher')
         }
     });
