@@ -1,10 +1,12 @@
-# Launch Roblox Player via a Terminal
+# roblox-cmd-launcher
 
 Launch into a game of your choice with (basically) the same way as the website/app does it
 
 ![Screenshot of what the program prints to the console](./assets/visual.png)
 
 ~~it works somehow and also is very messy but who cares~~
+
+~~this is literally just contacting api endpoints theres basically no need for this~~
 
 # Features
 
