@@ -45,6 +45,12 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
 
     if (command && !writeToFile) {
         console.log(`\nRunning '${command}' with URI`);
+
+        if (command.includes("%URI")) {
+            exec(`${command.replace("%URI", uri)}`);
+            return 0;
+        }
+
         exec(`${command} "${uri}"`);
         return 0;
     }
