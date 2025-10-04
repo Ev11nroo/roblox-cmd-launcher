@@ -15,7 +15,7 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
     }
 
     if (privateServerAccessCode != null && privateServerId != null) {
-        console.error("privateServerAccessCode requires to be 'null' to user privateServerId (9)");
+        console.error("privateServerAccessCode requires to be 'null' to use privateServerId (9)");
         return 9;
     }
 
@@ -23,6 +23,13 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
         console.error("privateServerId requires gameId (10)");
         return 10;
     }
+
+    if (serverId != null && privateServerId != null) {
+        console.error("serverId requires to be 'null' to use privateServerId (11)");
+        return 11;
+    }
+
+    return null;
 }
 
 module.exports = {
