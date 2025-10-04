@@ -66,7 +66,9 @@ if (cookie == null) {
 }
 
 console.log("Starting requests to Roblox\n");
-errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+
+const error = errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+if (error) { return error; }
 
 // send out HTTP requests
 if (!replicate) {
