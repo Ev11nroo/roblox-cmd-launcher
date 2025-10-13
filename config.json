@@ -1,5 +1,4 @@
 {
-    "replicate": false,
     "writeToFile": false,
     "updateChecker": true,
     "command": null,
