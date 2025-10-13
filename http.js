@@ -56,15 +56,15 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, frien
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
             if (await response.status != 200) {
-                console.error(`Could not authenticate with Roblox (2): ${response.status}`);
+                console.error(`Could not authenticate (2): ${response.status}`);
                 return 2;
             }
 
-            console.log('Authenticated successfully with Roblox');
+            console.log('Authenticated successfully');
 
             const authTicket = response.headers.get('rbx-authentication-ticket');
             if (!authTicket) {
-                console.error(`Could not get ticket (3): ${response.status}`);
+                console.error(`Could not get authentication ticket (3): ${response.status}`);
                 return 3;
             }
 
