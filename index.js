@@ -1,8 +1,9 @@
 const { getCSRFAndAuthenticate, getAccessCodeFromPrivateServerId } = require('./http');
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
-const { cookie, updateChecker } = require('./config.json');
-let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = require('./config.json').options;
+let preset = 'default';
+const { cookie, updateChecker, options } = require('./config.json');
+let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = options[preset];
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
 
@@ -31,16 +32,21 @@ for (i = process.argv.length; i >= 1; i--) {
         case '--privateServerId':
             privateServerId = process.argv[i + 1];
             break;
+        case '-c':
+        case '--preset':
+            preset = process.argv[i + 1];
+            break;
         case '-h':
         case '--help':
             console.log('Usage: node index.js [ARGUMENTS]\n' + 
                         'Example: node index.js -g 1234567890 -p d818fnf3-28dn-ad34-la72-h6cv8h4fj9g4\n\n' + 
                         'Arguments:\n' + 
+                        '    -c, --preset               The preset to use when loading values from options (overrides all values set)\n' +
+                        '    -h, --help                 Show this help menu\n\n' + 
                         '    -g, --gameId               Game ID used here will bypass config.json\n' + 
                         '    -p, --accessCode           Private server access code used here will bypass config.json\n' +
                         '                               (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' + 
                         '    -i, --privateServerId      The private server id to join to\n' + 
-                        '    -h, --help                 Show this help menu\n' + 
                         '    -f, --friendId             The user ID to follow to a game\n' + 
                         '    -s, --serverId             The server/game ID to join a specific server of a place\n'
                     );
@@ -58,6 +64,22 @@ if (updateChecker) {
             console.log('This version is outdated, please update from https://github.com/Ev11nroo/roblox-cmd-launcher')
         }
     });
+}
+
+if (preset != 'default' && options[preset] != null) {
+    // is there any better way....
+    const values = options[preset];
+
+    gameId = values.gameId;
+    privateServerAccessCode = values.privateServerAccessCode;
+    friendId = values.friendId;
+    serverId = values.serverId;
+    privateServerId = values.privateServerId;
+}
+
+if (options[preset] == null) {
+    console.error(`Current preset ${preset} is null, cannot continue (12)`);
+    return 12;
 }
 
 if (cookie == null) {
