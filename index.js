@@ -1,7 +1,7 @@
 const { getCSRFAndAuthenticate, getAccessCodeFromPrivateServerId } = require('./http');
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
-const { cookie, updateChecker, browserTrackerId, joinAttemptId } = require('./config.json');
+const { cookie, updateChecker } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = require('./config.json').options;
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
@@ -61,7 +61,7 @@ if (updateChecker) {
 }
 
 if (cookie == null) {
-    createURI(null, privateServerAccessCode, friendId, timestamp, gameId, browserTrackerId, joinAttemptId);
+    createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
     return 0;
 }
 
