@@ -69,7 +69,7 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, frien
             }
 
             console.log('Got Authentication Ticket');
-            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, browserTrackerId, joinAttemptId, serverId);
+            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
         })
         .catch(err => console.error(err));
     })
