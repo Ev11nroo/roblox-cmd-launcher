@@ -43,8 +43,8 @@ for (i = process.argv.length; i >= 1; i--) {
                         'Arguments:\n' + 
                         '    -c, --preset               The preset to use when loading values from options (overrides all values set)\n' +
                         '    -h, --help                 Show this help menu\n\n' + 
-                        '    -g, --gameId               Game ID used here will bypass config.json\n' + 
-                        '    -p, --accessCode           Private server access code used here will bypass config.json\n' +
+                        '    -g, --gameId               The game ID to join to\n' + 
+                        '    -p, --accessCode           The private server access code to join to\n' +
                         '                               (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' + 
                         '    -i, --privateServerId      The private server id to join to\n' + 
                         '    -f, --friendId             The user ID to follow to a game\n' + 
