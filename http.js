@@ -79,8 +79,8 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
     const getPrivateServer = fetch(`https://games.roblox.com/v1/games/${gameId}/private-servers?limit=100`, getMethodOptions);
     const accessCode = getPrivateServer.then(async response => {
         if (await response.status != 200) {
-            console.error(`Could not fetch private server access code (8): ${response.status}`);
-            return 8;
+            console.error(`Could not fetch private server access code (5): ${response.status}`);
+            return 5;
         }
 
         const data = await response.json();
