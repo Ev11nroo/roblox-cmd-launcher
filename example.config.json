@@ -8,8 +8,6 @@
         "friendId": null,
         "privateServerAccessCode": null,
         "privateServerId": null,
-        "serverId": null,
-        "browserTrackerId": null,
-        "joinAttemptId": null
+        "serverId": null
     }
 }
