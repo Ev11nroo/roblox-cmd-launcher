@@ -4,10 +4,12 @@
     "command": null,
     "cookie": "your-roblox-cookie",
     "options": {
-        "gameId": "any-game-id",
-        "friendId": null,
-        "privateServerAccessCode": null,
-        "privateServerId": null,
-        "serverId": null
+        "default": {
+            "gameId": "any-game-id",
+            "friendId": null,
+            "privateServerAccessCode": null,
+            "privateServerId": null,
+            "serverId": null
+        }
     }
 }
