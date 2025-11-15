@@ -77,11 +77,6 @@ if (preset != 'default' && options[preset] != null) {
     privateServerId = values.privateServerId;
 }
 
-if (options[preset] == null) {
-    console.error(`Current preset ${preset} is null, cannot continue (12)`);
-    return 12;
-}
-
 if (cookie == null) {
     createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
     return 0;
@@ -89,7 +84,11 @@ if (cookie == null) {
 
 console.log("Starting requests to Roblox\n");
 
-const error = errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+// error handler (what)
+let error = errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+if (error) { return error; }
+
+error = errorHandler.checkForBlankPreset(options[preset], preset);
 if (error) { return error; }
 
 // send out HTTP requests
