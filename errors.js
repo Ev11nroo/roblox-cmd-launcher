@@ -33,7 +33,7 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
 }
 
 function checkForBlankPreset(value, preset) {
-    if ((value == null) || (value == {}) || (value == "")) {
+    if ((value == null) || (Object.keys(value).length === 0) || (value == "")) {
         console.error(`Preset '${preset}' has no value, cannot continue (6)`);
         return 6;
     }
