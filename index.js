@@ -1,8 +1,9 @@
-const { getCSRFAndAuthenticate, getAccessCodeFromPrivateServerId, launch, launchProtocol, setUserStatusToUnknown, gameLaunchSuccessful, gameLaunchSuccessful_Protocol } = require('./http');
+const { getCSRFAndAuthenticate, getAccessCodeFromPrivateServerId } = require('./http');
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
-const { replicate, cookie, updateChecker, browserTrackerId, joinAttemptId } = require('./config.json');
-let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = require('./config.json').options;
+let preset = 'default';
+const { cookie, updateChecker, options } = require('./config.json');
+let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = options[preset];
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
 
@@ -31,16 +32,21 @@ for (i = process.argv.length; i >= 1; i--) {
         case '--privateServerId':
             privateServerId = process.argv[i + 1];
             break;
+        case '-c':
+        case '--preset':
+            preset = process.argv[i + 1];
+            break;
         case '-h':
         case '--help':
             console.log('Usage: node index.js [ARGUMENTS]\n' + 
                         'Example: node index.js -g 1234567890 -p d818fnf3-28dn-ad34-la72-h6cv8h4fj9g4\n\n' + 
                         'Arguments:\n' + 
-                        '    -g, --gameId               Game ID used here will bypass config.json\n' + 
-                        '    -p, --accessCode           Private server access code used here will bypass config.json\n' +
+                        '    -c, --preset               The preset to use when loading values from options (overrides all values set)\n' +
+                        '    -h, --help                 Show this help menu\n\n' + 
+                        '    -g, --gameId               The game ID to join to\n' + 
+                        '    -p, --accessCode           The private server access code to join to\n' +
                         '                               (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' + 
                         '    -i, --privateServerId      The private server id to join to\n' + 
-                        '    -h, --help                 Show this help menu\n' + 
                         '    -f, --friendId             The user ID to follow to a game\n' + 
                         '    -s, --serverId             The server/game ID to join a specific server of a place\n'
                     );
@@ -60,37 +66,39 @@ if (updateChecker) {
     });
 }
 
+if (preset != 'default' && options[preset] != null) {
+    // is there any better way....
+    const values = options[preset];
+
+    gameId = values.gameId;
+    privateServerAccessCode = values.privateServerAccessCode;
+    friendId = values.friendId;
+    serverId = values.serverId;
+    privateServerId = values.privateServerId;
+}
+
 if (cookie == null) {
-    createURI(null, privateServerAccessCode, friendId, timestamp, gameId, browserTrackerId, joinAttemptId);
+    createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
     return 0;
 }
 
 console.log("Starting requests to Roblox\n");
-errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+
+// error handler (what)
+let error = errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+if (error) { return error; }
+
+error = errorHandler.checkForBlankPreset(options[preset], preset);
+if (error) { return error; }
 
 // send out HTTP requests
-if (!replicate) {
-    if (privateServerId != null) {
-        const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);
-        code.then(code => {
-            console.log('Obtained private server access code');
-            getCSRFAndAuthenticate(timestamp, gameId, code, friendId, serverId);
-        });
-        return 0;
-    }
-
-    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
-} else {
-    console.warn("warn: replicate option is deprecated, please disable it")
-
-    if (privateServerId != null) {
-        console.warn("warn: privateServerId is not compatible with replicate option enabled");
-    }
-
-    getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
-    launch();
-    launchProtocol();
-    setUserStatusToUnknown();
-    gameLaunchSuccessful();
-    gameLaunchSuccessful_Protocol();
+if (privateServerId != null) {
+    const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);
+    code.then(code => {
+        console.log('Obtained private server access code');
+        getCSRFAndAuthenticate(timestamp, gameId, code, friendId, serverId);
+    });
+    return 0;
 }
+
+getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);

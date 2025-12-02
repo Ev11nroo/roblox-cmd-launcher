@@ -1,4 +1,4 @@
-const { cookie, browserTrackerId, joinAttemptId } = require('./config.json');
+const { cookie } = require('./config.json');
 const { createURI } = require('./uri');
 const fs = require('fs');
 
@@ -56,20 +56,20 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, frien
     const getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions)
         .then(async response => { 
             if (await response.status != 200) {
-                console.error(`Could not authenticate with Roblox (2): ${response.status}`);
+                console.error(`Could not authenticate (2): ${response.status}`);
                 return 2;
             }
 
-            console.log('Authenticated successfully with Roblox');
+            console.log('Authenticated successfully');
 
             const authTicket = response.headers.get('rbx-authentication-ticket');
             if (!authTicket) {
-                console.error(`Could not get ticket (3): ${response.status}`);
+                console.error(`Could not get authentication ticket (3): ${response.status}`);
                 return 3;
             }
 
             console.log('Got Authentication Ticket');
-            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, browserTrackerId, joinAttemptId, serverId);
+            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
         })
         .catch(err => console.error(err));
     })
@@ -79,8 +79,8 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
     const getPrivateServer = fetch(`https://games.roblox.com/v1/games/${gameId}/private-servers?limit=100`, getMethodOptions);
     const accessCode = getPrivateServer.then(async response => {
         if (await response.status != 200) {
-            console.error(`Could not fetch private server access code (8): ${response.status}`);
-            return 8;
+            console.error(`Could not fetch private server access code (5): ${response.status}`);
+            return 5;
         }
 
         const data = await response.json();
@@ -102,82 +102,7 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
     return accessCode.then(code => { return code });
 }
 
-// tell roblox that we want to launch game
-function launch() {
-   fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchAttempt_Unknown', options)
-        .then(async response => { 
-            if (await response.status != 200) {
-                console.error(`Could not complete request (4): ${response.status}`);
-                return 4;
-            }
-
-            console.log('Successfully told that a game wants to be launched');
-        })
-        .catch(err => console.error(err)); 
-} 
-
-// tell roblox to generate launch parameters (i think)
-function launchProtocol() {
-    fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchAttempt_Unknown_Protocol', options)
-        .then(async response => { 
-            if (await response.status != 200) {
-                console.error(`Could not complete request (4) ${response.status}`);
-                return 4;
-            }
-
-            console.log('Successfully told to give launch parameters');
-        })
-        .catch(err => console.error(err));  
-} 
-
-// set user status to unknown
-function setUserStatusToUnknown() {
-    fetch('https://www.roblox.com/client-status/set?status=Unknown', options)
-        .then(async response => { 
-            if (await response.status != 200) {
-                console.error(`Could not complete request (4) ${response.status}`);
-                return 4;
-            }
-
-            console.log('Set user status to "Unknown"');
-        })
-        .catch(err => console.error(err));
-} 
-
-// tell roblox that game was launched successfully
-function gameLaunchSuccessful() {
-  fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown', options)
-    .then(response => { 
-        if (response.status != 200) {
-            console.error(`Could not complete request (4) ${response.status}`);
-            return 4;
-        }
-
-        console.log('Told Roblox that game launch was successful');
-    })
-    .catch(err => console.error(err));
-}
-
-// tell roblox that game launched successfully (with protocol!!!!!!)
-function gameLaunchSuccessful_Protocol() {
-  fetch('https://assetgame.roblox.com/game/report-event?name=GameLaunchSuccessWeb_Unknown_Protocol', options)
-    .then(response => { 
-        if (response.status != 200) {
-            console.error(`Could not complete request (4) ${response.status}`);
-            return 4;
-        }
-
-        console.log('Told Roblox that game launch was successful (with protocol!!!!!!!!)');
-    })
-    .catch(err => console.error(err));
-}
-
 module.exports = {
     getCSRFAndAuthenticate,
     getAccessCodeFromPrivateServerId,
-    launch,
-    launchProtocol,
-    setUserStatusToUnknown,
-    gameLaunchSuccessful,
-    gameLaunchSuccessful_Protocol
 }

@@ -1,30 +1,47 @@
 function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId) {
     if (friendId != null && privateServerAccessCode != null) {
-        console.error("privateServerAccessCode reqires to be 'null' to use friendId (5)");
-        return 5;
+        console.error("privateServerAccessCode reqires to be 'null' to use friendId (4)");
+        return 4;
     }
 
     if (friendId != null && serverId != null) {
-        console.error("serverId requires to be 'null' to use friendId (6)")
-        return 6;
+        console.error("serverId requires to be 'null' to use friendId (4)")
+        return 4;
     }
 
     if (serverId != null && privateServerAccessCode != null) {
-        console.error("privateServerAccessCode requires to be 'null' to use serverId (7)");
-        return 7;
+        console.error("privateServerAccessCode requires to be 'null' to use serverId (4)");
+        return 4;
     }
 
     if (privateServerAccessCode != null && privateServerId != null) {
-        console.error("privateServerAccessCode requires to be 'null' to user privateServerId (9)");
-        return 9;
+        console.error("privateServerAccessCode requires to be 'null' to use privateServerId (4)");
+        return 4;
     }
 
     if (gameId == null && privateServerId != null) {
-        console.error("privateServerId requires gameId (10)");
-        return 10;
+        console.error("privateServerId requires gameId (4)");
+        return 4;
     }
+
+    if (serverId != null && privateServerId != null) {
+        console.error("serverId requires to be 'null' to use privateServerId (4)");
+        return 4;
+    }
+
+    return null;
+}
+
+function checkForBlankPreset(value, preset) {
+    if ((value == null) || (Object.keys(value).length === 0) || (value == "")) {
+        console.error(`Preset '${preset}' has no value, cannot continue (6)`);
+        return 6;
+    }
+
+    return null;
 }
 
 module.exports = {
-    optionsCombinationErrors
+    optionsCombinationErrors,
+    checkForBlankPreset
 }
