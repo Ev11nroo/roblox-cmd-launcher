@@ -1,6 +1,10 @@
+import json
 import requests
+import uri
 
-def getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, friendId, serverId):
+cookie = json.load(open("config.json"))["cookie"]
+
+def getCSRFAndAuthenticate(gameId, privateServerAccessCode, friendId, serverId):
     return
 
 def getAccessCodeFromPrivateServerId(gameId, privateServerId):
