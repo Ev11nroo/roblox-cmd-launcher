@@ -46,47 +46,48 @@ function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, frien
         console.log('Got XCSRF Token successfully');
         return csrf;
     })
-    .catch(err => console.error(err));
 
     // get authentication token to launch game
-    aquireXCSRF.then(csrf => {
+    .then(csrf => {
         const authOptions = {
-        method: 'POST',
-        headers: {
-            cookie: `${cookie}`,
-            referer: 'https://www.roblox.com/',
-            'x-csrf-token': `${csrf}`
-        },
-        body: 'false'
+            method: 'POST',
+            headers: {
+                cookie: `${cookie}`,
+                referer: 'https://www.roblox.com/',
+                'x-csrf-token': `${csrf}`
+            },
+            body: 'false'
         };
     
-    let getAuthTicket;
+        let getAuthTicket;
     
-    try {
-        getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions);
-    } catch (e) {
-        console.error("Failed to complete request (7)");
-        return 7;
-    }
-
-    getAuthTicket.then(async response => { 
-        if (await response.status != 200) {
-            console.error(`Could not authenticate (2): ${response.status}`);
-            return 2;
+        try {
+            getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions);
+        } catch (e) {
+            console.error("Failed to complete request (7)");
+            return 7;
         }
 
-        console.log('Authenticated successfully');
+        getAuthTicket.then(async response => { 
+            if (await response.status != 200) {
+                console.error(`Could not authenticate (2): ${response.status}`);
+                return 2;
+            }
 
-        const authTicket = response.headers.get('rbx-authentication-ticket');
-        if (!authTicket) {
-            console.error(`Could not get authentication ticket (3): ${response.status}`);
-            return 3;
-        }
+            console.log('Authenticated successfully');
 
-        console.log('Got Authentication Ticket');
-        createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
-    }).catch(err => console.error(err));
+            const authTicket = response.headers.get('rbx-authentication-ticket');
+            if (!authTicket) {
+                console.error(`Could not get authentication ticket (3): ${response.status}`);
+                return 3;
+            }
+
+            console.log('Got Authentication Ticket');
+            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
+        })
+        .catch(err => console.error(err));
     })
+    .catch(err => console.error(err));
 } 
 
 function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
