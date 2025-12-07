@@ -56,8 +56,16 @@ for (i = process.argv.length; i >= 1; i--) {
 
 //version checker
 if (updateChecker) {
-    fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
-    .then(data => data.text())
+    let value;
+
+    try {
+        value = fetch('https://raw.githubusercontent.com/Ev11nroo/roblox-cmd-launcher/refs/heads/main/version.txt')
+    } catch (e) {
+        console.error("Failed to complete request (7)");
+        return 7;
+    }
+
+    value.then(data => data.text())
     .then(data => githubVersion = data)
     .then(() => {
         if (Number(currentVersion) < Number(githubVersion)) {
