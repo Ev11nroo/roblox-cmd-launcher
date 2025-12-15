@@ -130,12 +130,13 @@ function getPrivateServerIdFromLinkCode(csrf, linkCode) {
         headers: {
             cookie: `${cookie}`,
             referer: 'https://www.roblox.com/',
-            'x-csrf-token': `${csrf}`
+            'x-csrf-token': `${csrf}`,
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            linkCode: `${linkCode}`,
-            linkType: "Server"
-        })
+        body: `{
+            "linkId": "${linkCode}",
+            "linkType": "Server"
+        }`
     };
 
     try {
@@ -147,7 +148,7 @@ function getPrivateServerIdFromLinkCode(csrf, linkCode) {
 
     const privateServerInfo = privateServerId.then(async response => {
         if (await response.status != 200) {
-            console.error(`Could not fetch private server id from link code (8): ${response.status}`);
+            console.error(`Could not fetch private server ID from link code (8): ${response.status}`);
             return 8;
         }
 
@@ -155,7 +156,7 @@ function getPrivateServerIdFromLinkCode(csrf, linkCode) {
         return data.privateServerInviteData;
     })
 
-    return privateServerInfo.then(info => { return info.privateServerId, placeId });
+    return privateServerInfo.then(info => { return info });
 }
 
 module.exports = {

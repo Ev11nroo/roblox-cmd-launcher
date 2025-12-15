@@ -1,9 +1,9 @@
-const { getCSRF, authenticate, getAccessCodeFromPrivateServerId } = require('./http');
+const { getCSRF, authenticate, getAccessCodeFromPrivateServerId, getPrivateServerIdFromLinkCode } = require('./http');
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
 let preset = 'default';
 const { cookie, updateChecker, options } = require('./config.json');
-let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = options[preset];
+let { gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode } = options[preset];
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
 let csrf;
@@ -84,6 +84,7 @@ if (preset != 'default' && options[preset] != null) {
     friendId = values.friendId;
     serverId = values.serverId;
     privateServerId = values.privateServerId;
+    linkCode = values.linkCode;
 }
 
 if (cookie == null) {
@@ -108,6 +109,12 @@ if (fs.existsSync('./uri.txt')) {
 // send out HTTP requests
 (async () => {
     csrf = await getCSRF();
+
+    if (linkCode != null) {
+        const info = await getPrivateServerIdFromLinkCode(csrf, linkCode);
+        privateServerId = info.privateServerId;
+        gameId = info.placeId;
+    }
 
     if (privateServerId != null) {
         const code = await getAccessCodeFromPrivateServerId(gameId, privateServerId);
