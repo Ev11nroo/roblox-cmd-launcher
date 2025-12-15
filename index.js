@@ -110,12 +110,9 @@ if (fs.existsSync('./uri.txt')) {
     csrf = await getCSRF();
 
     if (privateServerId != null) {
-        const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);
-        code.then(code => {
-            console.log('Obtained private server access code');
-            authenticate(csrf, timestamp, gameId, code, friendId, serverId);
-        });
-        return 0;
+        const code = await getAccessCodeFromPrivateServerId(gameId, privateServerId);
+        console.log('Obtained private server access code');
+        privateServerAccessCode = code;
     }
 
     authenticate(csrf, timestamp, gameId, privateServerAccessCode, friendId, serverId);
