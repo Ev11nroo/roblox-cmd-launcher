@@ -121,8 +121,46 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
     return accessCode.then(code => { return code });
 }
 
+// get privateServerId and gameId from linkCode
+function getPrivateServerIdFromLinkCode(csrf, linkCode) {
+    let privateServerId;
+
+    const linkOptions = {
+        method: 'POST',
+        headers: {
+            cookie: `${cookie}`,
+            referer: 'https://www.roblox.com/',
+            'x-csrf-token': `${csrf}`
+        },
+        body: JSON.stringify({
+            linkCode: `${linkCode}`,
+            linkType: "Server"
+        })
+    };
+
+    try {
+        privateServerId = fetch("https://apis.roblox.com/sharelinks/v1/resolve-link", linkOptions);
+    } catch (e) {
+        console.error("Failed to complete request (7)");
+        return 7;
+    }
+
+    const privateServerInfo = privateServerId.then(async response => {
+        if (await response.status != 200) {
+            console.error(`Could not fetch private server id from link code (8): ${response.status}`);
+            return 8;
+        }
+
+        const data = await response.json();
+        return data.privateServerInviteData;
+    })
+
+    return privateServerInfo.then(info => { return info.privateServerId, placeId });
+}
+
 module.exports = {
     getCSRF,
     authenticate,
     getAccessCodeFromPrivateServerId,
+    getPrivateServerIdFromLinkCode,
 }
