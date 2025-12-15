@@ -9,6 +9,7 @@
             "friendId": null,
             "privateServerAccessCode": null,
             "privateServerId": null,
+            "linkCode": "",
             "serverId": null
         }
     }
