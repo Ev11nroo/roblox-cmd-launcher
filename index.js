@@ -100,7 +100,7 @@ if (cookie == null) {
 console.log("Starting requests to Roblox\n");
 
 // error handler (what)
-let error = errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId);
+let error = errorHandler.optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode);
 if (error) { return error; }
 
 error = errorHandler.checkForBlankPreset(options[preset], preset);
