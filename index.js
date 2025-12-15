@@ -99,6 +99,11 @@ if (error) { return error; }
 error = errorHandler.checkForBlankPreset(options[preset], preset);
 if (error) { return error; }
 
+// remove uri.txt file if it exists
+if (fs.existsSync('./uri.txt')) {
+    fs.unlinkSync('./uri.txt', err => { if (err) throw err; });
+}
+
 // send out HTTP requests
 if (privateServerId != null) {
     const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);

@@ -1,10 +1,5 @@
 const { cookie } = require('./config.json');
 const { createURI } = require('./uri');
-const fs = require('fs');
-
-if (fs.existsSync('./uri.txt')) {
-    fs.unlinkSync('./uri.txt', err => { if (err) throw err; });
-}
 
 const options = {
     method: 'POST',
