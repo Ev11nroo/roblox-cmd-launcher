@@ -112,10 +112,10 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
             if (id == privateServerId) {
                 return privateServer.accessCode;
             }
-
-            console.warn(`No private server could be found under the game, defaulting to public servers`);
-            return null;
         }
+
+        console.warn(`No private server could be found under the game, defaulting to public servers`);
+        return null;
     });
     
     return accessCode.then(code => { return code });
