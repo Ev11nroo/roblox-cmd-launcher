@@ -1,4 +1,4 @@
-const { getCSRFAndAuthenticate, getAccessCodeFromPrivateServerId } = require('./http');
+const { getCSRF, authenticate, getAccessCodeFromPrivateServerId } = require('./http');
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
 let preset = 'default';
@@ -6,6 +6,7 @@ const { cookie, updateChecker, options } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId, privateServerId } = options[preset];
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
+let csrf;
 
 const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (err) console.log(err) });
 let githubVersion;
@@ -105,13 +106,17 @@ if (fs.existsSync('./uri.txt')) {
 }
 
 // send out HTTP requests
-if (privateServerId != null) {
-    const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);
-    code.then(code => {
-        console.log('Obtained private server access code');
-        getCSRFAndAuthenticate(timestamp, gameId, code, friendId, serverId);
-    });
-    return 0;
-}
+(async () => {
+    csrf = await getCSRF();
 
-getCSRFAndAuthenticate(timestamp, gameId, privateServerAccessCode, friendId, serverId);
+    if (privateServerId != null) {
+        const code = getAccessCodeFromPrivateServerId(gameId, privateServerId);
+        code.then(code => {
+            console.log('Obtained private server access code');
+            authenticate(csrf, timestamp, gameId, code, friendId, serverId);
+        });
+        return 0;
+    }
+
+    authenticate(csrf, timestamp, gameId, privateServerAccessCode, friendId, serverId);
+})();
