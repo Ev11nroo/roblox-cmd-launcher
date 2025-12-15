@@ -37,6 +37,10 @@ for (i = process.argv.length; i >= 1; i--) {
         case '--preset':
             preset = process.argv[i + 1];
             break;
+        case '-l':
+        case '--linkCode':
+            linkCode = process.argv[i + 1];
+            break;
         case '-h':
         case '--help':
             console.log('Usage: node index.js [ARGUMENTS]\n' + 
@@ -49,7 +53,8 @@ for (i = process.argv.length; i >= 1; i--) {
                         '                               (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' + 
                         '    -i, --privateServerId      The private server id to join to\n' + 
                         '    -f, --friendId             The user ID to follow to a game\n' + 
-                        '    -s, --serverId             The server/game ID to join a specific server of a place\n'
+                        '    -s, --serverId             The server/game ID to join a specific server of a place\n' +
+                        '    -l, --linkCode             The code shown in generated private server links'
                     );
             return 0;
     }
@@ -112,8 +117,12 @@ if (fs.existsSync('./uri.txt')) {
 
     if (linkCode != null) {
         const info = await getPrivateServerIdFromLinkCode(csrf, linkCode);
-        privateServerId = info.privateServerId;
-        gameId = info.placeId;
+
+        if (info != null) {
+            console.log("Obtained private server ID from link code");
+            privateServerId = info.privateServerId;
+            gameId = info.placeId;
+        }
     }
 
     if (privateServerId != null) {
