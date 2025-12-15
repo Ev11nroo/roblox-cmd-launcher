@@ -45,65 +45,43 @@ function getCSRF() {
     return csrfToken.then(csrf => { return csrf });
 }
 
-function authenticate(unixtime, gameId, privateServerAccessCode, friendId, serverId) {
-    let aquireXCSRF;
-
+// get authentication ticket
+function authenticate(csrf, unixtime, gameId, privateServerAccessCode, friendId, serverId) {
+    const authOptions = {
+        method: 'POST',
+        headers: {
+            cookie: `${cookie}`,
+            referer: 'https://www.roblox.com/',
+            'x-csrf-token': `${csrf}`
+        },
+        body: 'false'
+    };
+    
+    let getAuthTicket;
+    
     try {
-        aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options);
+        getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions);
     } catch (e) {
         console.error("Failed to complete request (7)");
         return 7;
     }
 
-    aquireXCSRF.then(async response => { 
-        const csrf = await response.headers.get('x-csrf-token');
-        if (!csrf) {
-            console.error(`XCSRF Token could not be grabbed (1): ${response.status}`);
-            return 1;
-        }
-        console.log('Got XCSRF Token successfully');
-        return csrf;
-    })
-
-    // get authentication token to launch game
-    .then(csrf => {
-        const authOptions = {
-            method: 'POST',
-            headers: {
-                cookie: `${cookie}`,
-                referer: 'https://www.roblox.com/',
-                'x-csrf-token': `${csrf}`
-            },
-            body: 'false'
-        };
-    
-        let getAuthTicket;
-    
-        try {
-            getAuthTicket = fetch('https://auth.roblox.com/v1/authentication-ticket', authOptions);
-        } catch (e) {
-            console.error("Failed to complete request (7)");
-            return 7;
+    getAuthTicket.then(async response => { 
+        if (await response.status != 200) {
+            console.error(`Could not authenticate (2): ${response.status}`);
+            return 2;
         }
 
-        getAuthTicket.then(async response => { 
-            if (await response.status != 200) {
-                console.error(`Could not authenticate (2): ${response.status}`);
-                return 2;
-            }
+        console.log('Authenticated successfully');
 
-            console.log('Authenticated successfully');
+        const authTicket = response.headers.get('rbx-authentication-ticket');
+        if (!authTicket) {
+            console.error(`Could not get authentication ticket (3): ${response.status}`);
+            return 3;
+        }
 
-            const authTicket = response.headers.get('rbx-authentication-ticket');
-            if (!authTicket) {
-                console.error(`Could not get authentication ticket (3): ${response.status}`);
-                return 3;
-            }
-
-            console.log('Got Authentication Ticket');
-            createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
-        })
-        .catch(err => console.error(err));
+        console.log('Got Authentication Ticket');
+        createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
     })
     .catch(err => console.error(err));
 } 
