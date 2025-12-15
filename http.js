@@ -22,7 +22,30 @@ let playToken;
 
 // send out the HTTP requests
 // get X-CSRF-TOKEN
-function getCSRFAndAuthenticate(unixtime, gameId, privateServerAccessCode, friendId, serverId) {
+function getCSRF() {
+    let aquireXCSRF;
+
+    try {
+        aquireXCSRF = fetch('https://auth.roblox.com/v2/logout', options);
+    } catch (e) {
+        console.error("Failed to complete request (7)");
+        return 7;
+    }
+
+    const csrfToken = aquireXCSRF.then(async response => { 
+        const csrf = await response.headers.get('x-csrf-token');
+        if (!csrf) {
+            console.error(`XCSRF Token could not be grabbed (1): ${response.status}`);
+            return 1;
+        }
+        console.log('Got XCSRF Token successfully');
+        return csrf;
+    })
+
+    return csrfToken.then(csrf => { return csrf });
+}
+
+function authenticate(unixtime, gameId, privateServerAccessCode, friendId, serverId) {
     let aquireXCSRF;
 
     try {
@@ -121,6 +144,7 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
 }
 
 module.exports = {
-    getCSRFAndAuthenticate,
+    getCSRF,
+    authenticate,
     getAccessCodeFromPrivateServerId,
 }
