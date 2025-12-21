@@ -121,8 +121,8 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
     return accessCode.then(code => { return code });
 }
 
-// get privateServerId and gameId from linkCode
-function getPrivateServerIdFromLinkCode(csrf, linkCode) {
+// get information for private server from linkCode
+function getPrivateServerInfoFromLinkCode(csrf, linkCode) {
     let privateServerId;
 
     const linkOptions = {
@@ -159,9 +159,43 @@ function getPrivateServerIdFromLinkCode(csrf, linkCode) {
     return privateServerInfo.then(info => { return info });
 }
 
+// the most scuffed way to get the access code (roblox give us an api endpoint)\
+// reading directly from the html content
+function getAccessCodeFromPrivateServerLinkCode(gameId, privateServerLinkCode) {
+    let gameScreen;
+
+    try {
+        gameScreen = fetch(`https://www.roblox.com/games/${gameId}?privateServerLinkCode=${privateServerLinkCode}`, getMethodOptions);
+    } catch (e) {
+        console.error("Failed to complete request (7)");
+        return 7;
+    }
+
+    const accessCode = gameScreen.then(async response => {
+        const content = await response.text();
+        const searchString = `Roblox.GameLauncher.joinPrivateGame(${gameId}, `;
+        const searchResult = content.indexOf(searchString);
+        let code = "";
+
+        if (searchResult == -1) {
+            console.error("Could not fetch accessCode from privateServerLinkCode (8)");
+            return 8;
+        }
+
+        for (let i = 0; i < 36; i++) {
+            code += content[searchResult + searchString.length + 1 + i]
+        }
+
+        return code;
+    })
+
+    return accessCode.then(code => { return code; });
+}
+
 module.exports = {
     getCSRF,
     authenticate,
     getAccessCodeFromPrivateServerId,
-    getPrivateServerIdFromLinkCode,
+    getPrivateServerInfoFromLinkCode,
+    getAccessCodeFromPrivateServerLinkCode,
 }
