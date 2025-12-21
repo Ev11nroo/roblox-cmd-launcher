@@ -172,6 +172,11 @@ function getAccessCodeFromPrivateServerLinkCode(gameId, privateServerLinkCode) {
     }
 
     const accessCode = gameScreen.then(async response => {
+        if (await response.status != 200) {
+            console.error("Could not fetch accessCode from privateServerLinkCode (9)");
+            return 9;
+        }
+
         const content = await response.text();
         const searchString = `Roblox.GameLauncher.joinPrivateGame(${gameId}, `;
         const searchResult = content.indexOf(searchString);
