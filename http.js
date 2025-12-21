@@ -178,8 +178,8 @@ function getAccessCodeFromPrivateServerLinkCode(gameId, privateServerLinkCode) {
         let code = "";
 
         if (searchResult == -1) {
-            console.error("Could not fetch accessCode from privateServerLinkCode (8)");
-            return 8;
+            console.error("Could not fetch accessCode from privateServerLinkCode (9)");
+            return 9;
         }
 
         for (let i = 0; i < 36; i++) {
