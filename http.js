@@ -148,7 +148,7 @@ function getPrivateServerInfoFromLinkCode(csrf, linkCode) {
 
     const privateServerInfo = privateServerId.then(async response => {
         if (await response.status != 200) {
-            console.error(`Could not fetch private server ID from link code (8): ${response.status}`);
+            console.error(`Could not fetch private server info from link code (8): ${response.status}`);
             return 8;
         }
 
