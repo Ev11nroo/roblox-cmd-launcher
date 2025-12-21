@@ -1,5 +1,5 @@
 function isBlank(value) {
-    if ((value == null) || (Object.keys(value).length === 0) || (value === "")) {
+    if ((value == null) || (value === "")) {
         return true;
     }
 
@@ -51,7 +51,7 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
 }
 
 function checkForBlankPreset(value, preset) {
-    if (isBlank(value)) {
+    if (isBlank(value) || Object.keys(value).length === 0) {
         console.error(`Preset '${preset}' has no value, cannot continue (6)`);
         return 6;
     }
