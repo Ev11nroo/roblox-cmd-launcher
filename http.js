@@ -46,7 +46,7 @@ function getCSRF() {
 }
 
 // get authentication ticket
-function authenticate(csrf, unixtime, gameId, privateServerAccessCode, friendId, serverId) {
+function authenticate(csrf, unixtime, gameId, privateServerAccessCode, friendId, serverId, privateServerLinkCode) {
     const authOptions = {
         method: 'POST',
         headers: {
@@ -81,7 +81,7 @@ function authenticate(csrf, unixtime, gameId, privateServerAccessCode, friendId,
         }
 
         console.log('Got Authentication Ticket');
-        createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId);
+        createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId, privateServerLinkCode);
     })
     .catch(err => console.error(err));
 } 

@@ -2,7 +2,7 @@ const { writeToFile, cookie, command } = require('./config.json');
 const { exec } = require('child_process')
 const fs = require('fs');
 
-function createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId) {
+function createURI(authTicket, privateServerAccessCode, friendId, unixtime, gameId, serverId, privateServerLinkCode) {
     let initalUri = `roblox-player:1+launchmode:play+launchtime:${unixtime}+`;
     let placeLauncherUrl = `https://assetgame.roblox.com/game/PlaceLauncher.ashx?request=RequestGame&placeId=${gameId}&`;
     
@@ -24,6 +24,10 @@ function createURI(authTicket, privateServerAccessCode, friendId, unixtime, game
     if (serverId != null) {
         placeLauncherUrl = placeLauncherUrl.replace("request=RequestGame", "request=GameJob");
         placeLauncherUrl += `gameId=${serverId}&`;
+    }
+
+    if (privateServerLinkCode != null) {
+        placeLauncherUrl += `linkCode=${privateServerLinkCode}&`;
     }
 
     initalUri += "placelauncherurl:";
