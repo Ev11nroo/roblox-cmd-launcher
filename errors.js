@@ -1,40 +1,48 @@
+function isBlank(value) {
+    if ((value == null) || (Object.keys(value).length === 0) || (value === "")) {
+        return true;
+    }
+
+    return false;
+}
+
 function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode) {
-    if (friendId != null && privateServerAccessCode != null) {
+    if (!isBlank(friendId) && !isBlank(privateServerAccessCode)) {
         console.error("privateServerAccessCode reqires to be 'null' to use friendId (4)");
         return 4;
     }
 
-    if (friendId != null && serverId != null) {
+    if (!isBlank(friendId) && !isBlank(serverId)) {
         console.error("serverId requires to be 'null' to use friendId (4)")
         return 4;
     }
 
-    if (serverId != null && privateServerAccessCode != null) {
+    if (!isBlank(serverId) && !isBlank(privateServerAccessCode)) {
         console.error("privateServerAccessCode requires to be 'null' to use serverId (4)");
         return 4;
     }
 
-    if (privateServerAccessCode != null && privateServerId != null) {
+    if (!isBlank(privateServerAccessCode) && !isBlank(privateServerId)) {
         console.error("privateServerAccessCode requires to be 'null' to use privateServerId (4)");
         return 4;
     }
 
-    if (gameId == null && privateServerId != null) {
+    if (isBlank(gameId) && !isBlank(privateServerId)) {
         console.error("privateServerId requires gameId (4)");
         return 4;
     }
 
-    if (serverId != null && privateServerId != null) {
+    if (!isBlank(serverId) && !isBlank(privateServerId)) {
         console.error("serverId requires to be 'null' to use privateServerId (4)");
         return 4;
     }
 
-    if (linkCode != null && gameId != null) {
+    if (!isBlank(linkCode) && !isBlank(gameId)) {
         console.error("gameId requires to be 'null' to use linkCode (4)");
         return 4;
     }
 
-    if (linkCode != null && privateServerId != null) {
+    if (!isBlank(linkCode) && !isBlank(privateServerId)) {
         console.error("privateServerId requires to be 'null' to use linkCode (4)");
         return 4;
     }
@@ -43,7 +51,7 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
 }
 
 function checkForBlankPreset(value, preset) {
-    if ((value == null) || (Object.keys(value).length === 0) || (value == "")) {
+    if (isBlank(value)) {
         console.error(`Preset '${preset}' has no value, cannot continue (6)`);
         return 6;
     }
