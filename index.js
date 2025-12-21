@@ -1,4 +1,4 @@
-const { getCSRF, authenticate, getAccessCodeFromPrivateServerId, getPrivateServerIdFromLinkCode } = require('./http');
+const { getCSRF, authenticate, getAccessCodeFromPrivateServerId, getPrivateServerInfoFromLinkCode, getAccessCodeFromPrivateServerLinkCode } = require('./http');
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
 let preset = 'default';
@@ -6,7 +6,6 @@ const { cookie, updateChecker, options } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode } = options[preset];
 const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
-let csrf;
 
 const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (err) console.log(err) });
 let githubVersion;
@@ -113,15 +112,24 @@ if (fs.existsSync('./uri.txt')) {
 
 // send out HTTP requests
 (async () => {
-    csrf = await getCSRF();
+    const csrf = await getCSRF();
+    let privateServerLinkCode;
 
     if (linkCode != null) {
-        const info = await getPrivateServerIdFromLinkCode(csrf, linkCode);
+        const info = await getPrivateServerInfoFromLinkCode(csrf, linkCode);
 
-        if (info != null) {
-            console.log("Obtained private server ID from link code");
-            privateServerId = info.privateServerId;
+        if (info != null || info != 8) {
+            privateServerLinkCode = info.linkCode;
             gameId = info.placeId;
+        }
+
+        if (privateServerLinkCode !== "") {
+            const accessCodeFromRequest = await getAccessCodeFromPrivateServerLinkCode(gameId, privateServerLinkCode);
+
+            if (accessCodeFromRequest != null || accessCodeFromRequest != 9) {
+                console.log("Obtained private server access code");
+                privateServerAccessCode = accessCodeFromRequest;
+            }
         }
     }
 
@@ -134,5 +142,5 @@ if (fs.existsSync('./uri.txt')) {
         }
     }
 
-    authenticate(csrf, timestamp, gameId, privateServerAccessCode, friendId, serverId);
+    authenticate(csrf, timestamp, gameId, privateServerAccessCode, friendId, serverId, privateServerLinkCode);
 })();

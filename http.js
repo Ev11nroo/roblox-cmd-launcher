@@ -190,7 +190,7 @@ function getAccessCodeFromPrivateServerLinkCode(gameId, privateServerLinkCode) {
         for (let i = 0; i < 36; i++) {
             code += content[searchResult + searchString.length + 1 + i]
         }
-
+        
         return code;
     })
 
