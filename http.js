@@ -66,7 +66,7 @@ function authenticate(csrf, gameId, privateServerAccessCode, friendId, serverId,
         return 7;
     }
 
-    getAuthTicket.then(async response => { 
+    const authTicket = getAuthTicket.then(async response => { 
         if (await response.status != 200) {
             console.error(`Could not authenticate (2): ${response.status}`);
             return 2;
@@ -81,9 +81,10 @@ function authenticate(csrf, gameId, privateServerAccessCode, friendId, serverId,
         }
 
         console.log('Got Authentication Ticket');
-        createURI(authTicket, privateServerAccessCode, friendId, gameId, serverId, privateServerLinkCode);
+        return authTicket;
     })
-    .catch(err => console.error(err));
+
+    return authTicket.then(ticket => { return ticket; });
 } 
 
 function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
