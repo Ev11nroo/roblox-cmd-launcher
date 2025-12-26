@@ -4,7 +4,6 @@ const errorHandler = require('./errors')
 let preset = 'default';
 const { cookie, updateChecker, options } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode } = options[preset];
-const timestamp = Math.floor(Date.now() / 1000);
 const fs = require('fs');
 
 const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (err) console.log(err) });
