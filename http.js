@@ -46,7 +46,7 @@ function getCSRF() {
 }
 
 // get authentication ticket
-function authenticate(csrf, gameId, privateServerAccessCode, friendId, serverId, privateServerLinkCode) {
+function authenticate(csrf) {
     const authOptions = {
         method: 'POST',
         headers: {

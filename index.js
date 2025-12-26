@@ -141,5 +141,7 @@ if (fs.existsSync('./uri.txt')) {
         }
     }
 
-    authenticate(csrf, timestamp, gameId, privateServerAccessCode, friendId, serverId, privateServerLinkCode);
+    const authTicket = await authenticate(csrf);
+
+    createURI(authTicket, privateServerAccessCode, friendId, gameId, serverId, privateServerLinkCode);
 })();
