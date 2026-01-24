@@ -8,7 +8,7 @@ function isBlank(value) {
 
 function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode) {
     if (!isBlank(friendId) && !isBlank(privateServerAccessCode)) {
-        console.error("privateServerAccessCode reqires to be 'null' to use friendId (4)");
+        console.error("privateServerAccessCode requires to be 'null' to use friendId (4)");
         return 4;
     }
 
