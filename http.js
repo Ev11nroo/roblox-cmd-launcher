@@ -1,5 +1,4 @@
 const { cookie } = require('./config.json');
-const { createURI } = require('./uri');
 
 const options = {
     method: 'POST',
@@ -18,9 +17,6 @@ const getMethodOptions = {
     }
 }
 
-let playToken;
-
-// send out the HTTP requests
 // get X-CSRF-TOKEN
 function getCSRF() {
     let aquireXCSRF;
