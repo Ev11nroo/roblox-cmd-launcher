@@ -6,7 +6,7 @@ const options = {
         cookie: `${cookie}`,
         referer: 'https://www.roblox.com/',
     },
-    body: 'false'
+    body: null
 };
 
 const getMethodOptions = {
@@ -50,7 +50,7 @@ function authenticate(csrf) {
             referer: 'https://www.roblox.com/',
             'x-csrf-token': `${csrf}`
         },
-        body: 'false'
+        body: null
     };
     
     let getAuthTicket;
