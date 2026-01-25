@@ -50,7 +50,7 @@ function authenticate(csrf) {
             referer: 'https://www.roblox.com/',
             'x-csrf-token': `${csrf}`
         },
-        body: null
+        body: ""
     };
     
     let getAuthTicket;
