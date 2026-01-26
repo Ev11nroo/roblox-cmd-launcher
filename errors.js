@@ -1,3 +1,5 @@
+const { writeToFile, command } = require("./config.json");
+
 function isBlank(value) {
     if ((value == null) || (value === "")) {
         return true;
@@ -44,6 +46,11 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
 
     if (!isBlank(linkCode) && !isBlank(privateServerId)) {
         console.error("privateServerId requires to be 'null' to use linkCode (4)");
+        return 4;
+    }
+
+    if (writeToFile == true && !isBlank(command)) {
+        console.error("writeToFile requires to be 'false' to use command (4)");
         return 4;
     }
 
