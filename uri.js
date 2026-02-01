@@ -1,5 +1,5 @@
 const { writeToFile, cookie, command } = require('./config.json');
-const { exec } = require('child_process')
+const { execSync } = require('child_process')
 const fs = require('fs');
 
 function createURI(authTicket, privateServerAccessCode, friendId, gameId, serverId, privateServerLinkCode) {
@@ -44,11 +44,11 @@ function createURI(authTicket, privateServerAccessCode, friendId, gameId, server
         console.log(`\nRunning '${command}' with URI`);
 
         if (command.includes("%URI")) {
-            exec(`${command.replace("%URI", uri)}`);
+            execSync(`${command.replace("%URI", uri)}`);
             return 0;
         }
 
-        exec(`${command} "${uri}"`);
+        execSync(`${command} "${uri}"`);
         return 0;
     }
 
