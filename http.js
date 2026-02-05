@@ -26,7 +26,7 @@ function setCookie(newCookie, fromRequest) {
             let config = require("./config.json");
             config.cookie = newCookie;
 
-            fs.writeFile("./config2.json", JSON.stringify(config, null, 4), (err) => { if (err) console.log(err); });
+            fs.writeFile("./config.json", JSON.stringify(config, null, 4), (err) => { if (err) console.log(err); });
         }
     }
 }
