@@ -1,4 +1,5 @@
-const { cookie } = require('./config.json');
+let { cookie } = require('./config.json');
+const fs = require("fs");
 
 const options = {
     method: 'POST',
@@ -17,6 +18,27 @@ const getMethodOptions = {
     }
 }
 
+function setCookie(newCookie, fromRequest) {
+    if (newCookie.includes(".ROBLOSECURITY")) {
+        cookie = newCookie;
+
+        if (fromRequest == true) {
+            let config = require("./config.json");
+            config.cookie = newCookie;
+
+            fs.writeFile("./config2.json", JSON.stringify(config, null, 4), (err) => { if (err) console.log(err); });
+        }
+    }
+}
+
+async function checkForCookie(response) {
+    const potentialCookie = (await response).headers.get("set-cookie");
+
+    if (potentialCookie) {
+        setCookie(potentialCookie, true);
+    }
+}
+
 // get X-CSRF-TOKEN
 function getCSRF() {
     let aquireXCSRF;
@@ -29,6 +51,8 @@ function getCSRF() {
     }
 
     const csrfToken = aquireXCSRF.then(async response => { 
+        checkForCookie(response);
+
         const csrf = await response.headers.get('x-csrf-token');
         if (!csrf) {
             console.error(`XCSRF Token could not be grabbed (1): ${response.status}`);
@@ -63,6 +87,8 @@ function authenticate(csrf) {
     }
 
     const authTicket = getAuthTicket.then(async response => { 
+        checkForCookie(response);
+
         if (await response.status != 200) {
             console.error(`Could not authenticate (2): ${response.status}`);
             return 2;
@@ -94,6 +120,8 @@ function getAccessCodeFromPrivateServerId(gameId, privateServerId) {
     }
 
     const accessCode = getPrivateServer.then(async response => {
+        checkForCookie(response);
+        
         if (await response.status != 200) {
             console.error(`Could not fetch private server access code (5): ${response.status}`);
             return 5;
@@ -144,6 +172,8 @@ function getPrivateServerInfoFromLinkCode(csrf, linkCode) {
     }
 
     const privateServerInfo = privateServerId.then(async response => {
+        checkForCookie(response);
+
         if (await response.status != 200) {
             console.error(`Could not fetch private server info from link code (8): ${response.status}`);
             return 8;
