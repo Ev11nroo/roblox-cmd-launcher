@@ -39,11 +39,6 @@ function optionsCombinationErrors(gameId, privateServerAccessCode, friendId, ser
         return 4;
     }
 
-    if (!isBlank(linkCode) && !isBlank(gameId)) {
-        console.error("gameId requires to be 'null' to use linkCode (4)");
-        return 4;
-    }
-
     if (!isBlank(linkCode) && !isBlank(privateServerId)) {
         console.error("privateServerId requires to be 'null' to use linkCode (4)");
         return 4;
