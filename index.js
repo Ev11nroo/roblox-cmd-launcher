@@ -90,11 +90,6 @@ if (preset != 'default' && options[preset] != null) {
     linkCode = values.linkCode;
 }
 
-if (cookie == null) {
-    createURI(null, privateServerAccessCode, friendId, timestamp, gameId);
-    return 0;
-}
-
 console.log("Starting requests to Roblox\n");
 
 // error handler (what)
