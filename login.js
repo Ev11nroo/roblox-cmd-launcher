@@ -102,7 +102,7 @@ async function invalidateToken(code) {
 }
 
 async function startLoginProcess() {
-    let csrf = "uyswoW5mUcmv", code = "", privateKey = "";
+    let csrf = "", code = "", privateKey = "";
     let statusCheck = true;
 
     const tokenData = await createToken();
