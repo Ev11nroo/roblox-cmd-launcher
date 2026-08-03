@@ -55,6 +55,15 @@ async function checkToken(code, privateKey, csrf) {
         return 7;
     }
 
+    const potentialCsrf = await checkForCsrf(request);
+
+    if (potentialCsrf != null) {
+        return {
+            "status": "NeedsCsrf",
+            "csrf": `${potentialCsrf}`
+        };
+    }
+
     if (await request.status != 200) {
         if (await request.status == 400) {
             console.log("Login request timed out, please try again (12)")
@@ -68,15 +77,6 @@ async function checkToken(code, privateKey, csrf) {
                 "httpCode": await request.status
             }
         }
-    }
-
-    const potentialCsrf = await checkForCsrf(request);
-
-    if (potentialCsrf != null) {
-        return {
-            "status": "NeedsCsrf",
-            "csrf": `${potentialCsrf}`
-        };
     }
 
     const data = await request.json();
