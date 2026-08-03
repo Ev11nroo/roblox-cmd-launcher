@@ -1,4 +1,3 @@
-let config = require("./config.json");
 const fs = require("fs");
 
 async function checkForCsrf(response) {
@@ -129,7 +128,7 @@ async function loginAndGetCookie(code, privateKey, csrf) {
         return 14;
     }
 
-    const cookie = await request.headers["set-cookie"];
+    const cookie = await request.headers.get("set-cookie");
     const data = await request.json();
 
     return {
@@ -162,15 +161,16 @@ async function startLoginProcess() {
 
     while (statusCheck) {
         const tokenStatus = await checkToken(code, privateKey, csrf);
-        console.log(tokenStatus);
+        let waitTime = 4;
 
         switch (tokenStatus.status) {
             case "NeedsCsrf":
                 csrf = tokenStatus.csrf
+                waitTime = 0;
                 break;
             case "TimedOut":
                 statusCheck = false;
-                statusSuccessCode = 12
+                statusSuccessCode = 12;
                 return 12;
                 break;
             case "Failed":
@@ -192,23 +192,29 @@ async function startLoginProcess() {
                 break;
         }
 
-        await (new Promise(promise => setTimeout(promise, 4 * 1000))); // wait for 4 seconds
+        await (new Promise(promise => setTimeout(promise, waitTime * 1000)));
     }
 
     if (statusSuccessCode == 0) {
         const loginResult = await loginAndGetCookie(code, privateKey, csrf);
 
-        if (loginResult.cookie == null) {
+        if (loginResult.cookie == null || loginResult.cookie === "undefined") {
             console.error("No cookie found during login request (15)");
             statusSuccessCode = 15;
             return 15;
         }
-        
-        console.log(loginResult.cookie)
-        console.log(loginResult.data.user.name)
+
+        // write cookie to file
+        let config = require("./config.json");
+        config.cookie = loginResult.cookie;
+        fs.writeFile("./config.json", JSON.stringify(config, null, 4), (err) => { if (err) console.log(err); });
+
+        console.log(`Logged in successfully as ${loginResult.data.user.name} (${loginResult.data.user.id})`);
     }
 
     return statusSuccessCode;
 }
 
-startLoginProcess()
+module.exports = {
+    startLoginProcess
+}
