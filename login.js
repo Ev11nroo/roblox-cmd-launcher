@@ -194,6 +194,21 @@ async function startLoginProcess() {
 
         await (new Promise(promise => setTimeout(promise, 4 * 1000))); // wait for 4 seconds
     }
+
+    if (statusSuccessCode == 0) {
+        const loginResult = await loginAndGetCookie(code, privateKey, csrf);
+
+        if (loginResult.cookie == null) {
+            console.error("No cookie found during login request (15)");
+            statusSuccessCode = 15;
+            return 15;
+        }
+        
+        console.log(loginResult.cookie)
+        console.log(loginResult.data.user.name)
+    }
+
+    return statusSuccessCode;
 }
 
 startLoginProcess()
