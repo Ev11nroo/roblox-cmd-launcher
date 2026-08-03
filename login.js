@@ -74,7 +74,7 @@ async function checkToken(code, privateKey, csrf) {
             console.log(`Failed getting quick login status (13): ${await request.status}`)
             return {
                 "status": "Failed",
-                "httpCode": await request.status
+                "errCode": 13,
             }
         }
     }
@@ -101,9 +101,46 @@ async function invalidateToken(code) {
     }
 }
 
+async function loginAndGetCookie(code, privateKey, csrf) {
+    const loginOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "x-csrf-token": `${csrf}`
+        },
+        body: JSON.stringify({
+            "ctype": "AuthToken",
+            "cvalue": `${code}`,
+            "password": `${privateKey}`,
+        })
+    }
+
+    let request;
+
+    try {
+        request = await fetch("https://auth.roblox.com/v2/login", loginOptions);
+    } catch (e) {
+        console.error("Failed to complete request (7)");
+        return 7;
+    }
+
+    if (await request.status != 200) {
+        console.error(`Failed to login (14): ${await request.status}`);
+        return 14;
+    }
+
+    const cookie = await request.headers["set-cookie"];
+    const data = await request.json();
+
+    return {
+        "cookie": `${cookie}`,
+        "data": data
+    }
+}
+
 async function startLoginProcess() {
     let csrf = "", code = "", privateKey = "";
-    let statusCheck = true;
+    let statusCheck = true, statusSuccessCode = 0;
 
     const tokenData = await createToken();
 
@@ -133,21 +170,24 @@ async function startLoginProcess() {
                 break;
             case "TimedOut":
                 statusCheck = false;
+                statusSuccessCode = 12
                 return 12;
                 break;
             case "Failed":
                 statusCheck = false;
-                return tokenStatus.httpCode;
+                statusSuccessCode = tokenStatus.errCode;
+                return tokenStatus.errCode;
                 break;
             case "Created":
             case "UserLinked":
                 break; // do nothing, still waiting on confirmation
             case "Cancelled":
-                console.error("Login request cancelled by user (15)");
+                console.error("Login request cancelled by user (14)");
                 statusCheck = false;
                 break;
             case "Validated":
                 statusCheck = false;
+                statusSuccess = true;
                 console.log("User confirmed token, logging in");
                 break;
         }
