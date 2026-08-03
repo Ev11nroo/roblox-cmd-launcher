@@ -1,4 +1,5 @@
 const { getCSRF, authenticate, getAccessCodeFromPrivateServerId, getPrivateServerInfoFromLinkCode, getAccessCodeFromPrivateServerLinkCode } = require('./http');
+const { startLoginProcess } = require("./login")
 const { createURI } = require('./uri');
 const errorHandler = require('./errors')
 let preset = 'default';
@@ -56,6 +57,11 @@ for (i = process.argv.length; i >= 1; i--) {
                     );
             return 0;
     }
+}
+
+// quick login
+if (process.argv[2] === "login") {
+    return startLoginProcess();
 }
 
 //version checker
