@@ -5,8 +5,7 @@ async function checkForCsrf(response) {
     const csrf = await response.headers.get("x-csrf-token");
 
     if (!await csrf) {
-        console.error(`XCSRF Token could not be grabbed (1): ${await response.status}`);
-        return 1;
+        return null;
     }
 
     return (await csrf);
@@ -38,6 +37,7 @@ async function checkToken(code, privateKey, csrf) {
     const statusOptions = {
         method: "POST",
         headers: {
+            "Content-Type": "application/json",
             "x-csrf-token": `${csrf}`
         },
         body: JSON.stringify({
@@ -54,6 +54,33 @@ async function checkToken(code, privateKey, csrf) {
         console.error("Failed to complete request (7)");
         return 7;
     }
+
+    if (await request.status != 200) {
+        if (await request.status == 400) {
+            console.log("Login request timed out, please try again (12)")
+            return {
+                "status": "TimedOut"
+            }
+        } else {
+            console.log(`Failed getting quick login status (13): ${await request.status}`)
+            return {
+                "status": "Failed",
+                "httpCode": await request.status
+            }
+        }
+    }
+
+    const potentialCsrf = await checkForCsrf(request);
+
+    if (potentialCsrf != null) {
+        return {
+            "status": "NeedsCsrf",
+            "csrf": `${potentialCsrf}`
+        };
+    }
+
+    const data = await request.json();
+    return (await data);
 }
 
 async function invalidateToken(code) {
@@ -75,7 +102,8 @@ async function invalidateToken(code) {
 }
 
 async function startLoginProcess() {
-    let csrf = "", code = "", privateKey = "";
+    let csrf = "uyswoW5mUcmv", code = "", privateKey = "";
+    let statusCheck = true;
 
     const tokenData = await createToken();
 
@@ -85,14 +113,47 @@ async function startLoginProcess() {
 
     // check for program closure to invalidate token
     process.on("SIGINT", async () => {
-        console.log("Cancelled request");
-        invalidateToken(await tokenData.code);
+        console.log("Cancelled login request");
+        statusCheck = false;
+        invalidateToken(tokenData.code);
     });
 
-    code = await tokenData.code;
-    privateKey = await tokenData.privateKey
+    code = tokenData.code;
+    privateKey = tokenData.privateKey
 
     console.log(`Use "Quick Sign In" or open the link (https://www.roblox.com/crossdevicelogin/ConfirmCode) and input: ${code}`);
+
+    while (statusCheck) {
+        const tokenStatus = await checkToken(code, privateKey, csrf);
+        console.log(tokenStatus);
+
+        switch (tokenStatus.status) {
+            case "NeedsCsrf":
+                csrf = tokenStatus.csrf
+                break;
+            case "TimedOut":
+                statusCheck = false;
+                return 12;
+                break;
+            case "Failed":
+                statusCheck = false;
+                return tokenStatus.httpCode;
+                break;
+            case "Created":
+            case "UserLinked":
+                break; // do nothing, still waiting on confirmation
+            case "Cancelled":
+                console.error("Login request cancelled by user (15)");
+                statusCheck = false;
+                break;
+            case "Validated":
+                statusCheck = false;
+                console.log("User confirmed token, logging in");
+                break;
+        }
+
+        await (new Promise(promise => setTimeout(promise, 4 * 1000))); // wait for 4 seconds
+    }
 }
 
 startLoginProcess()
