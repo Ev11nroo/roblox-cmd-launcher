@@ -1,19 +1,6 @@
 let config = require("./config.json");
 const fs = require("fs");
 
-let csrf = "", code = "", privateKey = "";
-
-let statusOptions = {
-    method: "POST",
-    headers: {
-        "x-csrf-token": `${csrf}`
-    },
-    body: JSON.stringify({
-        code: `${code}`,
-        privateKey: `${privateKey}`,
-    })
-};
-
 async function checkForCsrf(response) {
     const csrf = await response.headers.get("x-csrf-token");
 
@@ -22,7 +9,6 @@ async function checkForCsrf(response) {
         return 1;
     }
 
-    csrf = (await csrf);
     return (await csrf);
 }
 
@@ -37,9 +23,26 @@ async function createToken() {
         console.error("Failed to complete request (7)");
         return 7;
     }
+
+    const data = await request.json();
+    console.log(await data)
+    console.log(await data.code);
+
+    return (await data);
 }
 
-async function checkToken() {
+async function checkToken(code, privateKey, csrf) {
+    const statusOptions = {
+        method: "POST",
+        headers: {
+            "x-csrf-token": `${csrf}`
+        },
+        body: JSON.stringify({
+            code: `${code}`,
+            privateKey: `${privateKey}`,
+        })
+    };
+
     let request;
 
     try {
@@ -50,7 +53,14 @@ async function checkToken() {
     }
 }
 
-async function invalidateToken() {
+async function invalidateToken(code) {
+    const statusOptions = {
+        method: "POST",
+        body: JSON.stringify({
+            code: `${code}`
+        })
+    };
+
     let request;
 
     try {
@@ -60,5 +70,9 @@ async function invalidateToken() {
         return 7;
     }
 }
+
+process.on("SIGINT", () => {
+    console.log("Cancelled request")
+})
 
 createToken()
