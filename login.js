@@ -1,25 +1,28 @@
 let config = require("./config.json");
 const fs = require("fs");
 
+let csrf = "", code = "", privateKey = "";
+
 let statusOptions = {
     method: "POST",
     headers: {
         "x-csrf-token": `${csrf}`
     },
-    body: JSON.parse({
-        "code": `${code}`,
-        "privateKey": `${privateKey}`,
+    body: JSON.stringify({
+        code: `${code}`,
+        privateKey: `${privateKey}`,
     })
 };
 
 async function checkForCsrf(response) {
-    const csrf = (await response).headers.get("x-csrf-token");
+    const csrf = await response.headers.get("x-csrf-token");
 
-    if (!(await csrf)) {
-        console.error(`XCSRF Token could not be grabbed (1): ${(await response).status}`);
+    if (!await csrf) {
+        console.error(`XCSRF Token could not be grabbed (1): ${await response.status}`);
         return 1;
     }
 
+    csrf = (await csrf);
     return (await csrf);
 }
 
@@ -36,7 +39,7 @@ async function createToken() {
     }
 }
 
-async function checkToken(code, privateKey, csrf) {
+async function checkToken() {
     let request;
 
     try {
@@ -47,7 +50,7 @@ async function checkToken(code, privateKey, csrf) {
     }
 }
 
-async function invalidateToken(code) {
+async function invalidateToken() {
     let request;
 
     try {
@@ -57,3 +60,5 @@ async function invalidateToken(code) {
         return 7;
     }
 }
+
+createToken()
