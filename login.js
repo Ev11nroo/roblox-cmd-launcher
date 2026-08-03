@@ -10,10 +10,17 @@ let statusOptions = {
         "code": `${code}`,
         "privateKey": `${privateKey}`,
     })
-}
+};
 
 async function checkForCsrf(response) {
-    
+    const csrf = (await response).headers.get("x-csrf-token");
+
+    if (!(await csrf)) {
+        console.error(`XCSRF Token could not be grabbed (1): ${(await response).status}`);
+        return 1;
+    }
+
+    return (await csrf);
 }
 
 async function createToken() {
