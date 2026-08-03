@@ -24,13 +24,16 @@ async function createToken() {
         return 7;
     }
 
-    const data = await request.json();
-    console.log(await data)
-    console.log(await data.code);
+    if (await request.status != 200) {
+        console.error(`Failed getting quick login token (11): ${request.status}`)
+        return null;
+    }
 
+    const data = await request.json();
     return (await data);
 }
 
+// NOTE: requires csrf
 async function checkToken(code, privateKey, csrf) {
     const statusOptions = {
         method: "POST",
@@ -71,8 +74,25 @@ async function invalidateToken(code) {
     }
 }
 
-process.on("SIGINT", () => {
-    console.log("Cancelled request")
-})
+async function startLoginProcess() {
+    let csrf = "", code = "", privateKey = "";
 
-createToken()
+    const tokenData = await createToken();
+
+    if (tokenData == null) {
+        return 11;
+    }
+
+    // check for program closure to invalidate token
+    process.on("SIGINT", async () => {
+        console.log("Cancelled request");
+        invalidateToken(await tokenData.code);
+    });
+
+    code = await tokenData.code;
+    privateKey = await tokenData.privateKey
+
+    console.log(`Use "Quick Sign In" or open the link (https://www.roblox.com/crossdevicelogin/ConfirmCode) and input: ${code}`);
+}
+
+startLoginProcess()
