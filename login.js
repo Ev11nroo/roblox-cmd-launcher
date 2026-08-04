@@ -131,8 +131,12 @@ async function loginAndGetCookie(code, privateKey, csrf) {
     const cookie = await request.headers.get("set-cookie");
     const data = await request.json();
 
+    // trim cookie to prevent errors
+    const regex = new RegExp("\.ROBLOSECURITY.*?;");
+    const newCookie = cookie.match(regex)[0];
+
     return {
-        "cookie": `${cookie}`,
+        "cookie": `${newCookie}`,
         "data": data
     }
 }
