@@ -153,7 +153,7 @@ async function startLoginProcess() {
 
     // check for program closure to invalidate token
     process.on("SIGINT", async () => {
-        console.log("Cancelled login request");
+        console.log("\nCancelled login request");
         statusCheck = false;
         statusSuccessCode = 12
         invalidateToken(tokenData.code);
