@@ -155,6 +155,7 @@ async function startLoginProcess() {
     process.on("SIGINT", async () => {
         console.log("Cancelled login request");
         statusCheck = false;
+        statusSuccessCode = 12
         invalidateToken(tokenData.code);
     });
 
@@ -165,7 +166,6 @@ async function startLoginProcess() {
 
     while (statusCheck) {
         const tokenStatus = await checkToken(code, privateKey, csrf);
-        let waitTime = 4;
 
         switch (tokenStatus.status) {
             case "NeedsCsrf":
@@ -184,10 +184,12 @@ async function startLoginProcess() {
                 break;
             case "Created":
             case "UserLinked":
+                await (new Promise(promise => setTimeout(promise, 4 * 1000)));
                 break; // do nothing, still waiting on confirmation
             case "Cancelled":
                 console.error("Login request cancelled by user (14)");
                 statusCheck = false;
+                statusSuccessCode = 14;
                 break;
             case "Validated":
                 statusCheck = false;
@@ -195,8 +197,6 @@ async function startLoginProcess() {
                 console.log("User confirmed token, logging in");
                 break;
         }
-
-        await (new Promise(promise => setTimeout(promise, waitTime * 1000)));
     }
 
     if (statusSuccessCode == 0) {
