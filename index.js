@@ -47,8 +47,10 @@ for (i = process.argv.length; i >= 1; i--) {
             break;
         case '-h':
         case '--help':
-            console.log('Usage: node index.js [ARGUMENTS]\n' + 
+            console.log('Usage: node index.js [SUBCOMMAND | ARGUMENTS]\n' + 
                         'Example: node index.js -g 1234567890 -p d818fnf3-28dn-ad34-la72-h6cv8h4fj9g4\n\n' + 
+                        'Subcommands:\n' +
+                        '    login                      Use Roblox\'s quick login feature to obtain a cookie\n' +
                         'Arguments:\n' + 
                         '    -c, --preset               The preset to use when loading values from options (overrides all values set)\n' +
                         '    -h, --help                 Show this help menu\n\n' + 
