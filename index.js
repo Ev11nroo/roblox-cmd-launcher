@@ -50,17 +50,17 @@ for (i = process.argv.length; i >= 1; i--) {
             console.log('Usage: node index.js [SUBCOMMAND | ARGUMENTS]\n' + 
                         'Example: node index.js -g 1234567890 -p d818fnf3-28dn-ad34-la72-h6cv8h4fj9g4\n\n' + 
                         'Subcommands:\n' +
-                        '    login                      Use Roblox\'s quick login feature to obtain a cookie\n' +
+                        '   login                      Use Roblox\'s quick login feature to obtain a cookie\n' +
                         'Arguments:\n' + 
-                        '    -c, --preset               The preset to use when loading values from options (overrides all values set)\n' +
-                        '    -h, --help                 Show this help menu\n\n' + 
-                        '    -g, --gameId               The game ID to join to\n' + 
-                        '    -p, --accessCode           The private server access code to join to\n' +
-                        '                               (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' + 
-                        '    -i, --privateServerId      The private server id to join to\n' + 
-                        '    -f, --friendId             The user ID to follow to a game\n' + 
-                        '    -s, --serverId             The server/game ID to join a specific server of a place\n' +
-                        '    -l, --linkCode             The code shown in generated private server links'
+                        '   -c, --preset               The preset to use when loading values from options (overrides all values set)\n' +
+                        '   -h, --help                 Show this help menu\n\n' + 
+                        '   -g, --gameId               The game ID to join to\n' + 
+                        '   -p, --accessCode           The private server access code to join to\n' +
+                        '                                  (NOTE: Private server MUST exist within the Game ID. Access to the private server is required.)\n' + 
+                        '   -i, --privateServerId      The private server id to join to\n' + 
+                        '   -f, --friendId             The user ID to follow to a game\n' + 
+                        '   -s, --serverId             The server/game ID to join a specific server of a place\n' +
+                        '   -l, --linkCode             The code shown in generated private server links'
                     );
             return 0;
     }
