@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-if (!fs.existsSync("./config.json")) {
+if (!fs.existsSync("./config.json") && fs.existsSync("./example.config.json")) {
     fs.copyFileSync("./example.config.json", "./config.json");
 }
 
