@@ -1,3 +1,9 @@
+const fs = require('fs');
+
+if (!fs.existsSync("./config.json")) {
+    fs.copyFileSync("./example.config.json", "./config.json");
+}
+
 const { getCSRF, authenticate, getAccessCodeFromPrivateServerId, getPrivateServerInfoFromLinkCode, getAccessCodeFromPrivateServerLinkCode } = require('./http');
 const { startLoginProcess } = require("./login")
 const { createURI } = require('./uri');
@@ -5,7 +11,6 @@ const errorHandler = require('./errors')
 let preset = 'default';
 const { cookie, updateChecker, options } = require('./config.json');
 let { gameId, privateServerAccessCode, friendId, serverId, privateServerId, linkCode } = options[preset];
-const fs = require('fs');
 
 const currentVersion = fs.readFileSync('./version.txt', 'utf8', (err) => { if (err) console.log(err) });
 let githubVersion;
