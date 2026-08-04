@@ -16,6 +16,21 @@ Launch into a game of your choice with (basically) the same way as the website/a
 - Joining a specific server (1.0.8+)
 - Joining from a generated private server link code (1.1.1+)
 
+# Quick Start
+
+Clone the repository (or download the source code):
+
+```bash
+git clone https://github.com/Ev11nroo/roblox-cmd-launcher
+cd roblox-cmd-launcher
+```
+
+Login with this command:
+
+```bash
+node index.js login
+```
+
 # Documentation
 
 Documentation and a guide can be found [on the wiki.](https://github.com/Ev11nroo/roblox-cmd-launcher/wiki)
