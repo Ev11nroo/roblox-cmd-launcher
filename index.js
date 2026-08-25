@@ -43,7 +43,14 @@ for (i = process.argv.length; i >= 1; i--) {
             break;
         case '-l':
         case '--linkCode':
-            linkCode = process.argv[i + 1];
+            let value = process.argv[i + 1];
+
+            if (value.includes("type=Server")) {
+                value = value.replace("https://www.roblox.com/share?code=", "")
+                value = value.replace("&type=Server", "")
+            }
+
+            linkCode = value;
             break;
         case '-h':
         case '--help':
